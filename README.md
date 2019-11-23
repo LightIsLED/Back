@@ -14,6 +14,7 @@
     }
     ```
     형식의 JSON Type으로 반환하면 되는지.
+    - [ ] `scheID`가 표면적으로는 사용되지 않지만, DB에서 `select`하거나 `update`할 때, 되게 유용하게 사용되는데, 혹시 BACKEND PARAMETER로 지정해둘 수 있을까?
 
 - Trigger별로 Controller 나눔
     1. `Ask.MedicineList`

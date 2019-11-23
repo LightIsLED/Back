@@ -4,7 +4,7 @@ const config = require('../config/config')[env];
 const sequelize = new Sequelize(
     config.database, config.username, config.password, config,
 );
-const { Schedule, Medicine, MediSchedule } = require("../models");
+
 const moment = require('moment');
 
 const alarmList = async(req, res, next) => {
