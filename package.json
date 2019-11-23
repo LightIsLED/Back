@@ -1,0 +1,29 @@
+{
+  "name": "mediger-proxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node init"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LightIsLED/Proxy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LightIsLED/Proxy/issues"
+  },
+  "homepage": "https://github.com/LightIsLED/Proxy#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "moment": "^2.24.0",
+    "mysql2": "^2.0.1",
+    "sequelize": "^5.21.2",
+    "sequelize-cli": "^5.5.1"
+  }
+}
