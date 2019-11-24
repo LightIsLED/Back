@@ -1,9 +1,9 @@
 {
     "development": {
-        "username": "root",
-        "password": "Victory2017",
+        "username": "b0bb2113fafd66",
+        "password": "133d3d26",
         "database": "Mediger",
-        "host": "127.0.0.1",
+        "host": "us-cdbr-iron-east-05.cleardb.net",
         "dialect": "mysql",
         "operatorsAliases": false
     },
