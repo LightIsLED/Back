@@ -7,7 +7,7 @@ const sequelize = new Sequelize(
 
 const moment = require('moment');
 
-const alarmList = async(req, res, next) => {
+const alarmListToday = async(req, res, next) => {
     //오늘을 요청했을 때
     //오류나면 Object.keys(parameter).equal==='u_today' 해보기
     console.log(req.body);
@@ -61,5 +61,5 @@ const alarmList = async(req, res, next) => {
 }
 
 module.exports = {
-    alarmList,
+    alarmListToday,
 };
