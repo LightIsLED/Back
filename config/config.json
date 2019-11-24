@@ -6,8 +6,16 @@
         "host": "us-cdbr-iron-east-05.cleardb.net",
         "dialect": "mysql",
         "operatorsAliases": false
-    },
+},
     "test": {
+        "username": "b0bb2113fafd66",
+        "password": "133d3d26",
+        "database": "heroku_6239ce1834731ad",
+        "host": "us-cdbr-iron-east-05.cleardb.net",
+        "dialect": "mysql",
+        "operatorsAliases": false
+    },
+    "production": {
         "username": "b0bb2113fafd66",
         "password": "133d3d26",
         "database": "heroku_6239ce1834731ad",
