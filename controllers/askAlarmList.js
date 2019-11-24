@@ -10,6 +10,7 @@ const moment = require('moment');
 const alarmList = async(req, res, next) => {
     //오늘을 요청했을 때
     //오류나면 Object.keys(parameter).equal==='u_today' 해보기
+    console.log(req.body);
     var query = "SELECT DISTINCT scheName AS medicineList_today " + 
         "from SCHEDULES WHERE scheDate=DATE(:scheDate) AND userID=:userID";
         await sequelize.query(query, 
@@ -18,6 +19,7 @@ const alarmList = async(req, res, next) => {
             console.log(result);
             //JSON 형식 수정 필요
             res.json(result);
+            res.end();
         }).catch((error) => {
             console.error(error);
             next(error);
