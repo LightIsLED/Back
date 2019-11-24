@@ -2,24 +2,16 @@
     "development": {
         "username": "b0bb2113fafd66",
         "password": "133d3d26",
-        "database": "Mediger",
+        "database": "heroku_6239ce1834731ad",
         "host": "us-cdbr-iron-east-05.cleardb.net",
         "dialect": "mysql",
         "operatorsAliases": false
     },
     "test": {
-        "username": "root",
-        "password": null,
-        "database": "database_test",
-        "host": "127.0.0.1",
-        "dialect": "mysql",
-        "operatorsAliases": false
-    },
-    "production": {
-        "username": "root",
-        "password": null,
-        "database": "database_production",
-        "host": "127.0.0.1",
+        "username": "b0bb2113fafd66",
+        "password": "133d3d26",
+        "database": "heroku_6239ce1834731ad",
+        "host": "us-cdbr-iron-east-05.cleardb.net",
         "dialect": "mysql",
         "operatorsAliases": false
     }
