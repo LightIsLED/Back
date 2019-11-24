@@ -6,20 +6,31 @@ const sequelize = new Sequelize(
 );
 
 const moment = require('moment');
+const json = require('./responseController');
 
 const alarmListToday = async(req, res, next) => {
     //오늘을 요청했을 때
     //오류나면 Object.keys(parameter).equal==='u_today' 해보기
     console.log(req.body);
-    var query = "SELECT DISTINCT scheName AS medicineList_today " + 
-        "from SCHEDULES WHERE scheDate=DATE(:scheDate) AND userID=:userID";
+    var query = "SELECT DISTINCT scheName " + 
+        "from SCHEDULES WHERE userID=:userID";//scheDate=DATE(:scheDate) AND
         await sequelize.query(query, 
-            {replacements: {scheDate: moment().format('YYYY-MM-DD'), userID: 1}, type: Sequelize.QueryTypes.SELECT}
-        ).then((result) => {
-            console.log(result);
-            //JSON 형식 수정 필요
-            res.json(result);
+            {replacements:  {userID: 1}, type: Sequelize.QueryTypes.SELECT}//{scheDate: moment().format('YYYY-MM-DD')
+        ).then((results) => {
+            console.log(results);
+            let resultList = [];
+            for(var i = 0; i < results.length; i++){
+                resultList.push(results[i].scheName);
+            }
+            let resObj = json.resObj();
+
+            resObj.version = req.body.version;
+            resObj.output.medicineList_today = resultList;
+
+            console.log(resObj);
+            res.json(resObj);
             res.end();
+            return;
         }).catch((error) => {
             console.error(error);
             next(error);

@@ -15,13 +15,12 @@ const express = require("express");
 const router = express.Router();
 
 //Answer.alarmList
-router.post('/alarmListToday', alarmListToday);
-router.post('/Answer.alarmListToday', alarmListToday);
+router.post('/Answer-alarmListToday', alarmListToday);
 //Ask.whatToTake
 router.post('/whatToTake', whatToTake);
 router.post('/medication_yes', medication_yes);
 
 //Change.medicationInfo
-router.get('/alarmNameToChange', alarmNameToChange);
+router.post('/alarmNameToChange', alarmNameToChange);
 
 module.exports = router;
