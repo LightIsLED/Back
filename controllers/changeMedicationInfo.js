@@ -4,7 +4,6 @@ const config = require('../config/config')[env];
 const sequelize = new Sequelize(
     config.database, config.username, config.password, config,
 );
-const {Schedule} = require("../models");
 
 const alarmNameToChange = async(req, res, next) => {
     const alarmName = req.body.action.parameters.AlarmName;
@@ -20,17 +19,17 @@ const alarmNameToChange = async(req, res, next) => {
     });
 }
 
+/*
 const endDateToChange = async(req, res, next) => {
     Schedule.find({
         where: {scheID: req.body.action.parameters.changeMedicationInfo_scheID},
-        attributes: ['endDate']
     }).then((end)=> {
-        if(Date.parse(end.dataValues.endDate) <= Date.parse()){
-            
+        if(Date.parse(end.dataValues.endDate) <= Date.parse(req.body.action.parameters.endDate)){
+            "INSERT INTO SCHEDULES(scheName, startDate, endDate, scheDate) VALUES"
         }
     })
 }
-
+*/
 module.exports = {
     alarmNameToChange,
 };

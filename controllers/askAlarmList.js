@@ -8,9 +8,23 @@ const sequelize = new Sequelize(
 const moment = require('moment');
 
 const alarmList = async(req, res, next) => {
-    let parameter = req.body.action.parameters;
     //오늘을 요청했을 때
     //오류나면 Object.keys(parameter).equal==='u_today' 해보기
+    var query = "SELECT DISTINCT scheName AS medicineList_today " + 
+        "from SCHEDULES WHERE scheDate=DATE(:scheDate) AND userID=:userID";
+        await sequelize.query(query, 
+            {replacements: {scheDate: moment().format('YYYY-MM-DD'), userID: 1}, type: Sequelize.QueryTypes.SELECT}
+        ).then((result) => {
+            console.log(result);
+            //JSON 형식 수정 필요
+            res.json(result);
+        }).catch((error) => {
+            console.error(error);
+            next(error);
+        });
+    /*
+    let parameter = req.body.action.parameters;
+
     if(parameter.u_today != null){
         var query = "SELECT DISTINCT scheName AS medicineList_today " + 
         "from SCHEDULES WHERE scheDate=DATE(:scheDate) AND userID=:userID";
@@ -41,6 +55,7 @@ const alarmList = async(req, res, next) => {
             next(error);
         });
     }
+    */
 }
 
 module.exports = {
