@@ -9,9 +9,10 @@ const moment = require('moment');
 const json = require('./responseController');
 
 const alarmListToday = async(req, res, next) => {
-    //오늘을 요청했을 때
-    //오류나면 Object.keys(parameter).equal==='u_today' 해보기
     console.log(req.body);
+    console.log(req.body.action.parameters);
+    console.log('userID: '. req.body.action.parameters.userID_1);
+
     var query = "SELECT DISTINCT scheName " + 
         "from SCHEDULES WHERE userID=:userID";//scheDate=DATE(:scheDate) AND
         await sequelize.query(query, 
@@ -38,24 +39,19 @@ const alarmListToday = async(req, res, next) => {
             console.error(error);
             next(error);
         });
-    /*
-    let parameter = req.body.action.parameters;
+}
 
-    if(parameter.u_today != null){
-        var query = "SELECT DISTINCT scheName AS medicineList_today " + 
-        "from SCHEDULES WHERE scheDate=DATE(:scheDate) AND userID=:userID";
-        await sequelize.query(query, 
-            {replacements: {scheDate: moment().format('YYYY-MM-DD'), userID: 1}, type: Sequelize.QueryTypes.SELECT}
-        ).then((result) => {
-            console.log(result);
-            //JSON 형식 수정 필요
-            res.json(result);
-        }).catch((error) => {
-            console.error(error);
-            next(error);
-        });
-    }
-    //특정 일자를 요청했을 때
+const alarmListTheDay = async(req, res, next) => {
+    console.log(req.body.action.parameters);
+    console.log('userID: ', req.body.action.parameters.userID_1);
+    console.log('theDay: ', req.body.action.parameters.u_theDay);
+    console.log('theMonth: ',req.body.action.parameters.u_theMonth);
+    res.end();
+    return;
+
+}
+
+/*
     else if(parameter.u_today === null && (parameter.u_themonth!= null && parameter.u_theDay!=null)){
         var date = moment([moment().format('YYYY'), parameter.u_themonth, parameter.u_theDay]).format('YYYY-MM-DD');
         var query = "SELECT DISTINCT scheName AS medicineList_theDay " + 
@@ -71,9 +67,9 @@ const alarmListToday = async(req, res, next) => {
             next(error);
         });
     }
-    */
-}
+*/
 
 module.exports = {
     alarmListToday,
+    alarmListTheDay
 };
