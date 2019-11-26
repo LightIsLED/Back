@@ -8,7 +8,7 @@ const sequelize = new Sequelize(
 const moment = require('moment');
 const json = require('./responseController');
 
-const alarmList = async(req, res, next) => {\
+const alarmList = async(req, res, next) => {
     console.log(req.body);
     console.log(req.body.action.parameters);
 
