@@ -11,7 +11,7 @@ const json = require('./responseController');
 const alarmList = async(req, res, next) => {
     var scheDate = moment().format('YYYY-MM-DD');
     if(!(req.body.action.parameters).hasOwnProperty('u_today')){
-        var dateFormat = moment().format('YYYY') + req.body.acton.parameters.u_theMonth.value + req.body.action.parameters.u_theDay;
+        var dateFormat = (moment().format('YYYY')).toString() + req.body.acton.parameters.u_theMonth.value + req.body.action.parameters.u_theDay.value;
         scheDate = moment(dateFormat).format('YYYY-MM-DD');
 
     }
