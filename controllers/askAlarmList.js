@@ -8,16 +8,18 @@ const sequelize = new Sequelize(
 const moment = require('moment');
 const json = require('./responseController');
 
-const alarmList = async(req, res, next) => {
+const alarmList = async(req, res, next) => {\
+    console.log(req.body);
+    console.log(req.body.action.parameters);
+
     var scheDate = moment().format('YYYY-MM-DD');
-    if(!(req.body.action.parameters).hasOwnProperty('u_today')){
+
+    if((req.body.action.parameters).hasOwnProperty('u_today') === false){
         var dateFormat = (moment().format('YYYY')).toString() + req.body.acton.parameters.u_theMonth.value + req.body.action.parameters.u_theDay.value;
+        console.log('dateFormat: ', dateFormat);
         scheDate = moment(dateFormat).format('YYYY-MM-DD');
 
     }
-
-    console.log(req.body);
-    console.log(req.body.action.parameters);
 
     var query = "SELECT DISTINCT scheName " + 
         "from SCHEDULES WHERE scheDate=DATE(:scheDate) AND userID=:userID";
