@@ -1,5 +1,5 @@
 const {
-    alarmList,
+    alarmList
 } = require("../controllers/askAlarmList")
 
 const {
