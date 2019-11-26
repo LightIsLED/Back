@@ -5,7 +5,7 @@ const sequelize = new Sequelize(
     config.database, config.username, config.password, config,
 );
 
-const moment = require('moment');
+const moment = require('moment-timezone');
 const json = require('./responseController');
 
 const alarmList = async(req, res, next) => {
@@ -14,14 +14,14 @@ const alarmList = async(req, res, next) => {
 
     //오늘 알람 리스트를 물었을 경우
     ///Answer-alarmListToday
-    var scheDate = moment().format('YYYY-MM-DD').tz('Asia/Seoul');
+    var scheDate = moment().tz('Asia/Seoul').format('YYYY-MM-DD');
 
     //특정일의 알람 리스트를 물었을 경우
     ///Answer-alarmListTheDay
     if((req.body.action.parameters).hasOwnProperty('u_today') === false){
-        var dateFormat = (moment().format('YYYY').tz('Asia/Seoul')).toString() + req.body.action.parameters.u_themonth.value + req.body.action.parameters.u_theDay.value;
+        var dateFormat = (moment().tz('Asia/Seoul').format('YYYY')).toString() + req.body.action.parameters.u_themonth.value + req.body.action.parameters.u_theDay.value;
         console.log('dateFormat: ', dateFormat);
-        scheDate = moment(dateFormat).format('YYYY-MM-DD').tz('Asia/Seoul');
+        scheDate = moment(dateFormat).tz('Asia/Seoul').format('YYYY-MM-DD');
     }
     //쿼리는 공통적
     var query = "SELECT DISTINCT scheName " + 
