@@ -18,7 +18,7 @@ const router = express.Router();
 router.post('/Answer-alarmListToday', alarmList);
 router.post('/Answer-alarmListTheDay', alarmList);
 //Ask-whatToTake
-router.post('/whatToTake', whatToTake);
+router.post('/Answer-whatToTake', whatToTake);
 router.post('/medication_yes', medication_yes);
 
 //Change-medicationInfo

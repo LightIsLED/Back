@@ -40,8 +40,8 @@ const alarmList = async(req, res, next) => {
             }
             //RESPONSE SAMPLE 형식에 맞춤
             let resObj = json.resObj();
-
             resObj.version = req.body.version;
+            
             //오늘 알람을 물었을 경우
             if((req.body.action.parameters).hasOwnProperty('u_today') === true){
                 resObj.output.medicineList_today = resultList;
