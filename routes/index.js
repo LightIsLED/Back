@@ -14,13 +14,13 @@ const{
 const express = require("express");
 const router = express.Router();
 
-//Answer.alarmList
+//Answer-alarmList
 router.post('/Answer-alarmListToday', alarmListToday);
-//Ask.whatToTake
+//Ask-whatToTake
 router.post('/whatToTake', whatToTake);
 router.post('/medication_yes', medication_yes);
 
-//Change.medicationInfo
+//Change-medicationInfo
 router.post('/alarmNameToChange', alarmNameToChange);
 
 module.exports = router;

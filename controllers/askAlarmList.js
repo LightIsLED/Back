@@ -18,9 +18,12 @@ const alarmListToday = async(req, res, next) => {
             {replacements:  {userID: 1}, type: Sequelize.QueryTypes.SELECT}//{scheDate: moment().format('YYYY-MM-DD')
         ).then((results) => {
             console.log(results);
-            let resultList = [];
+            let resultList = '';
             for(var i = 0; i < results.length; i++){
-                resultList.push(results[i].scheName);
+                resultList = resultList +results[i].scheName;
+                if(i < results.length -1){
+                    resultList = resultList + ', '
+                }
             }
             let resObj = json.resObj();
 
