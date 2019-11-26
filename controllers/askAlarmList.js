@@ -8,15 +8,21 @@ const sequelize = new Sequelize(
 const moment = require('moment');
 const json = require('./responseController');
 
-const alarmListToday = async(req, res, next) => {
+const alarmList = async(req, res, next) => {
+    var scheDate = moment().format('YYYY-MM-DD');
+    if(!(req.body.action.parameters).hasOwnProperty('u_today')){
+        var dateFormat = moment().format('YYYY') + req.body.acton.parameters.u_theMonth.value + req.body.action.parameters.u_theDay;
+        scheDate = moment(dateFormat).format('YYYY-MM-DD');
+
+    }
+
     console.log(req.body);
     console.log(req.body.action.parameters);
-    console.log('userID: '. req.body.action.parameters.userID_1);
 
     var query = "SELECT DISTINCT scheName " + 
-        "from SCHEDULES WHERE userID=:userID";//scheDate=DATE(:scheDate) AND
+        "from SCHEDULES WHERE scheDate=DATE(:scheDate) AND userID=:userID";
         await sequelize.query(query, 
-            {replacements:  {userID: 1}, type: Sequelize.QueryTypes.SELECT}//{scheDate: moment().format('YYYY-MM-DD')
+            {replacements:  {scheDate: scheDate, userID: req.body.action.parameters.userID_1.value}, type: Sequelize.QueryTypes.SELECT}
         ).then((results) => {
             console.log(results);
             let resultList = '';
@@ -41,16 +47,6 @@ const alarmListToday = async(req, res, next) => {
         });
 }
 
-const alarmListTheDay = async(req, res, next) => {
-    console.log(req.body.action.parameters);
-    console.log('userID: ', req.body.action.parameters.userID_1);
-    console.log('theDay: ', req.body.action.parameters.u_theDay);
-    console.log('theMonth: ',req.body.action.parameters.u_theMonth);
-    res.end();
-    return;
-
-}
-
 /*
     else if(parameter.u_today === null && (parameter.u_themonth!= null && parameter.u_theDay!=null)){
         var date = moment([moment().format('YYYY'), parameter.u_themonth, parameter.u_theDay]).format('YYYY-MM-DD');
@@ -70,6 +66,5 @@ const alarmListTheDay = async(req, res, next) => {
 */
 
 module.exports = {
-    alarmListToday,
-    alarmListTheDay
+    alarmList
 };

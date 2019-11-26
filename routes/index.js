@@ -1,6 +1,5 @@
 const {
-    alarmListToday,
-    alarmListTheDay
+    alarmList,
 } = require("../controllers/askAlarmList")
 
 const {
@@ -16,8 +15,8 @@ const express = require("express");
 const router = express.Router();
 
 //Answer-alarmList
-router.post('/Answer-alarmListToday', alarmListToday);
-router.post('/Answer-alarmListTheDay', alarmListTheDay);
+router.post('/Answer-alarmListToday', alarmList);
+router.post('/Answer-alarmListTheDay', alarmList);
 //Ask-whatToTake
 router.post('/whatToTake', whatToTake);
 router.post('/medication_yes', medication_yes);
