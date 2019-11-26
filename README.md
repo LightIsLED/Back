@@ -2,7 +2,7 @@
 
 - TODO List
     - [X] `Ask-MedicineList`
-    - [ ] `Ask-whatToTake`
+    - [X] `Ask-whatToTake`
     - [ ] `Change-medicationInfo`
     - [ ] `Check-MedicineToTake`
     - [ ] `Check-MedicineTaken`

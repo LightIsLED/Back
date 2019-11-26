@@ -19,7 +19,7 @@ router.post('/Answer-alarmListToday', alarmList);
 router.post('/Answer-alarmListTheDay', alarmList);
 //Ask-whatToTake
 router.post('/Answer-whatToTake', whatToTake);
-router.post('/medication_yes', medication_yes);
+router.post('/Confirm-medication_yes', medication_yes);
 
 //Change-medicationInfo
 router.post('/alarmNameToChange', alarmNameToChange);

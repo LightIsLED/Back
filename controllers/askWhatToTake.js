@@ -56,8 +56,19 @@ const whatToTake = async(req, res, next) => {
 const medication_yes = async(req, res, next) => {
     await Schedule.update({intake: true},{
         where: {
-            scheID : req.body.action.parameters.askWhatToTake_scheID
+            scheID : parseInt(req.body.action.parameters.askWhatToTake_scheID)
         }
+    }).then(()=> {
+        let resObj = json.resObj();
+        resObj.version = req.body.version;
+        resObj.output.medicineList_toTake = req.body.action.parameters.medicineList_toTake;
+        resObj.output.askWhatToTake_scheID = req.body.action.parameters.askWhatToTake_scheID;
+        
+        console.log(resObj);
+
+        res.json(resObj);
+        res.end();
+        return;
     }).catch(error => {
         console.error(error);
         next(error);
