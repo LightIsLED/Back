@@ -6,6 +6,7 @@ const sequelize = new Sequelize(
 );
 
 const {Schedule} = require("../models");
+const json = require('./responseController');
 
 const moment = require('moment');
 
@@ -14,14 +15,14 @@ const whatToTake = async(req, res, next) => {
     console.log(req.body.action.parameters);
 
     //현재 시간으로부터 전후 1시간에 울릴 알람 리스트
-    const hour = moment().format('hh');
+    const hour = moment().format('hh').tz('Asia/Seoul');
 
     var query = "SELECT scheName, scheID " + 
         "from SCHEDULES WHERE scheDate=DATE(:scheDate) AND userID=:userID " + 
         "AND (scheHour BETWEEN :hour-1 AND :hour+1)";
     
     await sequelize.query(query, 
-            {replacements: {scheDate: moment().format('YYYY-MM-DD'), userID: req.body.action.parameters.userID_2.value, hour: parseInt(hour)}, type: Sequelize.QueryTypes.SELECT}
+            {replacements: {scheDate: moment().format('YYYY-MM-DD').tz('Asia/Seoul'), userID: req.body.action.parameters.userID_2.value, hour: parseInt(hour)}, type: Sequelize.QueryTypes.SELECT}
     ).then(results => {
         //울릴 알람이 여러개일 경우
         let alarmNameList = '';

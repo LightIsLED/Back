@@ -14,14 +14,14 @@ const alarmList = async(req, res, next) => {
 
     //오늘 알람 리스트를 물었을 경우
     ///Answer-alarmListToday
-    var scheDate = moment().format('YYYY-MM-DD');
+    var scheDate = moment().format('YYYY-MM-DD').tz('Asia/Seoul');
 
     //특정일의 알람 리스트를 물었을 경우
     ///Answer-alarmListTheDay
     if((req.body.action.parameters).hasOwnProperty('u_today') === false){
-        var dateFormat = (moment().format('YYYY')).toString() + req.body.action.parameters.u_themonth.value + req.body.action.parameters.u_theDay.value;
+        var dateFormat = (moment().format('YYYY').tz('Asia/Seoul')).toString() + req.body.action.parameters.u_themonth.value + req.body.action.parameters.u_theDay.value;
         console.log('dateFormat: ', dateFormat);
-        scheDate = moment(dateFormat).format('YYYY-MM-DD');
+        scheDate = moment(dateFormat).format('YYYY-MM-DD').tz('Asia/Seoul');
     }
     //쿼리는 공통적
     var query = "SELECT DISTINCT scheName " + 
@@ -41,7 +41,7 @@ const alarmList = async(req, res, next) => {
             //RESPONSE SAMPLE 형식에 맞춤
             let resObj = json.resObj();
             resObj.version = req.body.version;
-            
+
             //오늘 알람을 물었을 경우
             if((req.body.action.parameters).hasOwnProperty('u_today') === true){
                 resObj.output.medicineList_today = resultList;
