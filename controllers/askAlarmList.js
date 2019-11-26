@@ -15,7 +15,7 @@ const alarmList = async(req, res, next) => {
     var scheDate = moment().format('YYYY-MM-DD');
 
     if((req.body.action.parameters).hasOwnProperty('u_today') === false){
-        var dateFormat = (moment().format('YYYY')).toString() + req.body.acton.parameters.u_themonth.value + req.body.action.parameters.u_theDay.value;
+        var dateFormat = (moment().format('YYYY')).toString() + req.body.action.parameters.u_themonth.value + req.body.action.parameters.u_theDay.value;
         console.log('dateFormat: ', dateFormat);
         scheDate = moment(dateFormat).format('YYYY-MM-DD');
 
