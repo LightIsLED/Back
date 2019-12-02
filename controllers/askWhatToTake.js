@@ -15,14 +15,22 @@ const whatToTake = async(req, res, next) => {
     console.log(req.body.action.parameters);
 
     //현재 시간으로부터 전후 1시간에 울릴 알람 리스트
-    const hour = moment().tz('Asia/Seoul').format('HH');
+    let hour = moment().tz('Asia/Seoul').format('HH');
+    let prevHour = hour-1;
+    let nextHour = nour+1;
+    if(hour === 0){
+        prevHour = 23;
+    }
+    if(hour === 23){
+        nextHour = 0;
+    }
 
     var query = "SELECT scheName, scheID " + 
         "from SCHEDULES WHERE scheDate=DATE(:scheDate) AND userID=:userID " + 
-        "AND (scheHour BETWEEN :hour-1 AND :hour+1)";
+        "AND scheHour IN (:prevHour, :hour, :nextHour)";
     
     await sequelize.query(query, 
-            {replacements: {scheDate: moment().tz('Asia/Seoul').format('YYYY-MM-DD'), userID: req.body.action.parameters.userID_2.value, hour: parseInt(hour)}, type: Sequelize.QueryTypes.SELECT}
+            {replacements: {scheDate: moment().tz('Asia/Seoul').format('YYYY-MM-DD'), userID: req.body.action.parameters.userID_2.value, prevHour: prevHour, hour: hour, nextHour: nextHour}, type: Sequelize.QueryTypes.SELECT}
     ).then(results => {
         //울릴 알람이 여러개일 경우
         let alarmNameList = '';
