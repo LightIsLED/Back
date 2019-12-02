@@ -18,10 +18,10 @@ const whatToTake = async(req, res, next) => {
     let hour = moment().tz('Asia/Seoul').format('HH');
     let prevHour = hour-1;
     let nextHour = hour+1;
-    if(hour === 0){
+    if(hour === 00 || hour === '00'){
         prevHour = 23;
     }
-    if(hour === 23){
+    if(hour === 23 || hour === '23'){
         nextHour = 0;
     }
 
@@ -30,7 +30,7 @@ const whatToTake = async(req, res, next) => {
         "AND scheHour IN (:prevHour, :hour, :nextHour)";
     
     await sequelize.query(query, 
-            {replacements: {scheDate: moment().tz('Asia/Seoul').format('YYYY-MM-DD'), userID: req.body.action.parameters.userID_2.value, prevHour: prevHour, hour: hour, nextHour: nextHour}, type: Sequelize.QueryTypes.SELECT}
+            {replacements: {scheDate: moment().tz('Asia/Seoul').format('YYYY-MM-DD'), userID: req.body.action.parameters.userID_2.value, prevHour: prevHour, hour: parseInt(hour), nextHour: parseInt(nextHour)}, type: Sequelize.QueryTypes.SELECT}
     ).then(results => {
         //울릴 알람이 여러개일 경우
         let alarmNameList = '';
