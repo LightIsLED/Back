@@ -15,7 +15,7 @@ const whatToTake = async(req, res, next) => {
     console.log(req.body.action.parameters);
 
     //현재 시간으로부터 전후 1시간에 울릴 알람 리스트
-    const hour = moment().tz('Asia/Seoul').format('hh');
+    const hour = moment().tz('Asia/Seoul').format('HH');
 
     var query = "SELECT scheName, scheID " + 
         "from SCHEDULES WHERE scheDate=DATE(:scheDate) AND userID=:userID " + 
