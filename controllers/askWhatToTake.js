@@ -62,6 +62,19 @@ const whatToTake = async(req, res, next) => {
 }
 
 const medication_yes = async(req, res, next) => {
+    console.log(req.body);
+    console.log(req.body.action.parameters);
+    
+    if(!(req.body.action.parameters).hasOwnProperty('Yes_taken')){
+        //RESPONSE SAMPLE 형식에 맞춤
+        let resObj = json.resObj();
+        resObj.version = req.body.version;
+        resObj.output.No_taken = req.body.action.parameters.No_taken.value;
+        console.log(resObj);
+        res.json(resObj);
+        res.end();
+        return;
+    }
     await Schedule.update({intake: true},{
         where: {
             scheID : parseInt(req.body.action.parameters.askWhatToTake_scheID)
