@@ -36,25 +36,25 @@ const insertAlarm = async(req, res, next) => {
                 startDate: startDate,
                 endDate: endDate
             });
+        
+            //NUGU SPEAKER에서는 약을 하나만 입력받도록 함
+            await Medicine.findOrCreate({
+                where: { medicineName: req.body.action.parameters.medicineName_input.value },
+                attributes: ["medicineID", "medicineName"]
+            }).spread( async(medicine) => {
+                MediSchedule.create({
+                    medicineID: medicine.dataValues.medicineID,
+                    scheID: schedule["dataValues"]["scheID"],
+                    dose: req.body.action.parameters.dosage_input.value,
+                    medicineName: medicine.dataValues.medicineName,
+                });
+            }).catch((error) => {
+                console.error(error);
+                next(error);
+            });
             //Date를 다음 일자로 넘김.
             tempDate = moment(tempDate).add(1, 'd');
         }
-        //NUGU SPEAKER에서는 약을 하나만 입력받도록 함
-        await Medicine.findOrCreate({
-            where: { medicineName: req.body.action.parameters.medicineName_input.value },
-            attributes: ["medicineID", "medicineName"]
-        }).spread( async(medicine) => {
-            MediSchedule.create({
-                medicineID: medicine.dataValues.medicineID,
-                scheID: schedule["dataValues"]["scheID"],
-                dose: req.body.action.parameters.dosage_input.value,
-                medicineName: medicine.dataValues.medicineName,
-            });
-        }).catch((error) => {
-            console.error(error);
-            next(error);
-        });
-
         //RESPONSE SAMPLE 형식에 맞춤
         let resObj = json.resObj();
         resObj.version = req.body.version;
