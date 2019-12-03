@@ -20,7 +20,7 @@ const insertAlarm = async(req, res, next) => {
     }
     //NUGU SPEAKER에서는 시간을 하나만 입력받음    
     const month = parseInt(req.body.action.parameters.endDate_month.value) >= 10 ? req.body.action.parameters.endDate_month.value : '0' + req.body.action.parameters.endDate_month.value;
-    const day = parseInt(req.body.action.parameters.endDate_month.value) >= 10 ? req.body.action.parameters.endDate_day.value : '0' + req.body.action.parameters.endDate_day.value;
+    const day = parseInt(req.body.action.parameters.endDate_day.value) >= 10 ? req.body.action.parameters.endDate_day.value : '0' + req.body.action.parameters.endDate_day.value;
     const dateFormat =  req.body.action.parameters.endDate_year.value + month + day;
     const endDate = moment(dateFormat).format('YYYY-MM-DD');
 
