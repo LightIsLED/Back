@@ -29,6 +29,18 @@ const deleteAlarm = async(req, res, next) => {
     console.log(req.body);
     console.log(req.body.action.parameters);
 
+    if(!(req.body.action.parameters).hasOwnProperty('Yes_delete')){
+        //RESPONSE SAMPLE 형식에 맞춤
+        let resObj = json.resObj();
+        resObj.version = req.body.version;
+        resObj.output.No_taken = req.body.action.parameters.No_delete.value;
+        resObj.output.alarmName = req.body.action.parameters.alarmName.value
+        console.log(resObj);
+        res.json(resObj);
+        res.end();
+        return;
+    }
+
     Schedule.destroy({
         where: {
             userID: parseInt(req.body.action.parameters.userID_6.value),

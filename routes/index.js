@@ -1,6 +1,7 @@
 const {alarmList} = require("../controllers/askAlarmList");
 const { whatToTake, medicationYes } = require("../controllers/askWhatToTake");
 const { alarmNameToChange } = require("../controllers/changeMedicationInfo");
+const { selectAlarmList, updateIntake } = require("../controllers/checkMedicineTaken")
 const {findAlarmInfo, deleteAlarm} = require("../controllers/deleteMedicationInfo");
 const {insertAlarm} = require("../controllers/inputMedicationInfo");
 
@@ -17,6 +18,10 @@ router.post('/Confirm-medication', medicationYes);
 
 //Change-medicationInfo
 router.post('/alarmNameToChange', alarmNameToChange);
+
+//Check-MedicineTaken
+router.post('/Check-alarmTaken', selectAlarmList);
+router.post('/Check-MedicineTaken_missing', updateIntake);
 
 //Delete-MedicationInfo
 router.post('/Ask-alarmNameToDelete', findAlarmInfo);

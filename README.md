@@ -6,7 +6,7 @@
     - [ ] `Change-medicationInfo`
     - [ ] `Check-MedicineToTake`
     - [ ] `Check-MedicineTaken`
-    - [ ] `Delete-MedicationInfo`
+    - [X] `Delete-MedicationInfo`
     - [X] `Input-MedicationInfo`
 
 - UPDATE
