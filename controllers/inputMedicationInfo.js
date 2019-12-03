@@ -10,8 +10,10 @@ const insertAlarm = async(req, res, next) => {
         //NUGU SPEAKER에서는 시간을 하나만 입력받음
         //time이 23:00형식으로 받아지기 때문에, ':'을 기준으로 hour과 minute를 나누는 함수
         let startDate = moment().format('YYYY-MM-DD');
-        var dateFormat = (moment().tz('Asia/Seoul').format('YYYY')).toString() + req.body.action.parameters.endDate_month.value + req.body.action.parameters.endDate_day.value;
+        var dateFormat = (moment().tz('Asia/Seoul').format('YYYY')).toString() + "-" +req.body.action.parameters.endDate_month.value + "-" + req.body.action.parameters.endDate_day.value;
+        console.log("dateFormat:", dateFormat);
         let endDate = moment(dateFormat).format('YYYY-MM-DD');
+        console.log("endDate: ", endDate);
         let tempDate = moment().format('YYYY-MM-DD');
 
         let hour = parseInt(req.body.action.parameters.alarmTime_hour.value);
