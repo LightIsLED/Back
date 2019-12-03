@@ -47,7 +47,7 @@ const insertAlarm = async(req, res, next) => {
             scheMin: min,
             startDate: startDate,
             endDate: endDate
-        }).then((schedule) => {
+        }).then(async(schedule) => {
             await Medicine.findOrCreate({
                 where: { medicineName: req.body.action.parameters.medicineName_input.value },
                 attributes: ["medicineID", "medicineName"]
