@@ -1,79 +1,74 @@
-const moment = require('moment-timezone');
 const { Schedule, Medicine, MediSchedule } = require("../models");
 
+const moment = require('moment-timezone');
+const json = require('./responseController');
 
 const insertAlarm = async(req, res, next) => {
     console.log(req.body);
     console.log(req.body.action.parameters);
     try {
-        let timeCount = 0;
-        //사용자가 알람별로 등록한 시간 갯수에 따라서 루프 돌아감.
-        //사용자가 시간을 3개 등록했으면, 3 번 돌아감.
-        while (1) {
-            //time이 23:00형식으로 받아지기 때문에, ':'을 기준으로 hour과 minute를 나누는 함수
-            let time = timeSplit(req.body.time, timeCount);
-            let startDate = moment().format('YYYY-MM-DD');
-            var dateFormat = (moment().tz('Asia/Seoul').format('YYYY')).toString() + req.body.action.parameters.endDate_input.value[0] + req.body.action.parametersendDate_input.value[1];
-            let endDate = moment(dateFormat).format('YYYY-MM-DD');
-            let tempDate = moment().format('YYYY-MM-DD');
+        //NUGU SPEAKER에서는 시간을 하나만 입력받음
+        //time이 23:00형식으로 받아지기 때문에, ':'을 기준으로 hour과 minute를 나누는 함수
+        let startDate = moment().format('YYYY-MM-DD');
+        var dateFormat = (moment().tz('Asia/Seoul').format('YYYY')).toString() + req.body.action.parameters.endDate_month.value + req.body.action.parameters.endDate_day.value;
+        let endDate = moment(dateFormat).format('YYYY-MM-DD');
+        let tempDate = moment().format('YYYY-MM-DD');
 
-            if(startDate>endDate){
-                throw new Error("시작일이 종료일보다 큽니다.");
-            }
+        let hour = parseInt(req.body.action.parameters.alarmTime_hour.value);
+        let min = 0;
 
-            while(tempDate <= endDate){
-                let schedule = await Schedule.create({
-                    //테스트를 위해 임시로 1로 둠
-                    userID: 1,//req.session.user.userID,
-                    scheName: req.body.action.parameters.alarmName_input,
-                    scheDate: tempDate,
-                    scheHour: time[0],
-                    scheMin: time[1],
-                    startDate: startDate,
-                    endDate: endDate
-                });
-                //Date를 다음 일자로 넘김.
-                tempDate = moment(tempDate).add(1, 'd');
+        if((req.body.action.parameters).hasOwnProperty('alarmTime_min')){
+            min = parseInt(req.body.action.parameters.alarmTime_min.value);
+        }
 
-                let mediCount = 0;
-                //사용자가 알람에 등록한 약 갯수에 따라서 루프 돌아감
-                //사용자가 약을 3개 등록했으면, 3 번 돌아감
-                while (1) {
-                    //focus medicine과 dose를 담는 object
-                    let tempMedi = mediSelect(req.body.mediName, req.body.dose, mediCount);
-                    //medicine 이름이 DB에 있으면 select, 없으면 insert
-                    await Medicine.findOrCreate({
-                        where: { medicineName: tempMedi.medicine },
-                        attributes: ["medicineID", "medicineName"]
-                    }).spread( async(medicine) => {
-                        MediSchedule.create({
-                            medicineID: medicine.dataValues.medicineID,
-                            scheID: schedule["dataValues"]["scheID"],
-                            dose: tempMedi.dose,
-                            medicineName: medicine.dataValues.medicineName,
-                        });
-                    }).catch((error) => {
-                        console.error(error);
-                        next(error);
-                    });
+        if(startDate>endDate){
+            throw new Error("시작일이 종료일보다 큽니다.");
+        }
 
-                    //다음 약으로 넘어감
-                    mediCount = mediCount + 1;
-
-                    //약을 여러개 입력(type이 object일 때) and 약 개수가 초과하지 않았을 때
-                    //약을 하나 입력했거나(type이 string일때)
-                    if ((typeof(req.body.mediName)=== "object" && !(req.body.mediName[mediCount])) || typeof( req.body.mediName) === "string") {
-                        break;
-                    }
+        while(tempDate <= endDate){
+            if(alarmTime_duration === 'PM'){
+                hour = hour + 12;
+                if(hour >= 24){
+                    hour = hour - 24
                 }
             }
-            timeCount = timeCount + 1;
-            if ((typeof(req.body.time) === "object" && !(req.body.time[timeCount])) || typeof req.body.time == "string") {
-                break;
-            }
+            let schedule = await Schedule.create({
+                //테스트를 위해 임시로 1로 둠
+                userID: 1,//req.session.user.userID,
+                scheName: req.body.action.parameters.alarmName_input.value,
+                scheDate: tempDate,
+                scheHour: hour,
+                scheMin: min,
+                startDate: startDate,
+                endDate: endDate
+            });
+            //Date를 다음 일자로 넘김.
+            tempDate = moment(tempDate).add(1, 'd');
         }
-        res.redirect('/medicines');
-    } catch (error) {
+        //NUGU SPEAKER에서는 약을 하나만 입력받도록 함
+        await Medicine.findOrCreate({
+            where: { medicineName: req.body.action.parameters.medicineName_input.value },
+            attributes: ["medicineID", "medicineName"]
+        }).spread( async(medicine) => {
+            MediSchedule.create({
+                medicineID: medicine.dataValues.medicineID,
+                scheID: schedule["dataValues"]["scheID"],
+                dose: req.body.action.parameters.dosage_input.value,
+                medicineName: medicine.dataValues.medicineName,
+            });
+        }).catch((error) => {
+            console.error(error);
+            next(error);
+        });
+
+        //RESPONSE SAMPLE 형식에 맞춤
+        let resObj = json.resObj();
+        resObj.version = req.body.version;
+        console.log(resObj);
+        res.json(resObj);
+        res.end();
+        return;
+    }catch (error) {
         console.error(error);
         next(error);
     }
