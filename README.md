@@ -7,7 +7,7 @@
     - [ ] `Check-MedicineToTake`
     - [ ] `Check-MedicineTaken`
     - [ ] `Delete-MedicationInfo`
-    - [ ] `Input-MedicationInfo`
+    - [X] `Input-MedicationInfo`
 
 - UPDATE
     1. `moment.js`에서 타임존 에러를 해결하기 위해 `moment-timezone`을 설치함.
