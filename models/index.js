@@ -22,11 +22,11 @@ db.Schedule.belongsTo(db.User, {foreignKey: 'userID'});
 //db.Medicine.hasMany(db.MediSchedule);
 db.MediSchedule.belongsTo(db.Medicine, {foreignKey: 'medicineID'});
 
-//db.Schedule.hasOne(db.MediSchedule);
-db.MediSchedule.belongsTo(db.Schedule, {
-    foreignKey: {name: 'scheID', allowNull: false},
-    onDelete: 'CASCADE'
-});
+db.Schedule.hasOne(db.MediSchedule, {foreignKey: 'scheID'});
+// db.MediSchedule.belongsTo(db.Schedule, {
+//     foreignKey: {name: 'scheID', allowNull: false},
+//     onDelete: 'CASCADE'
+// });
 
 db.Medicine.belongsToMany(db.Medicine, {
     foreignKey: 'recoMediID',

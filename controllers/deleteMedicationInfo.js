@@ -9,7 +9,7 @@ const findAlarmInfo = async(req, res, next) => {
     Schedule.findOne({
         where: { 
             userID: parseInt(req.body.action.parameters.userID_6.value),
-            scheName:req.body.action.parameters.alarmName.value
+            scheName: req.body.action.parameters.alarmName.value
         },
         order: [['endDate', 'DESC']]
     }).then(schedule => {
