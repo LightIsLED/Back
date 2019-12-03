@@ -22,11 +22,11 @@ const selectAlarmList = async(req, res, next) => {
             resObj.version = req.body.version;
 
             //복용한 약이 없을 경우를 대비한 삼항연산자
-            resObj.output.medicineTakenInfo = intaken.length === 0 ? null : moreThanOneNames(intaken);
+            resObj.output.medicineTakenInfo = intaken.length === 0 ? "null" : moreThanOneNames(intaken);
 
             //복용하지않은 약이 없을 경우를 대비한 삼항연산자
-            resObj.output.medicineUntakenInfo = notIntaken.length === 0 ? null : moreThanOneNames(notIntaken);
-            resObj.output.medicineUntakenScheID = notIntaken.length === 0 ? null : moreThanOneScheduleIDs(notIntaken);
+            resObj.output.medicineUntakenInfo = notIntaken.length === 0 ? "null" : moreThanOneNames(notIntaken);
+            resObj.output.medicineUntakenScheID = notIntaken.length === 0 ? "null" : moreThanOneScheduleIDs(notIntaken);
 
             resObj.output.userID_5 = req.body.action.parameters.userID_5.value;
 
