@@ -11,6 +11,10 @@ const{
     alarmNameToChange
 } = require("../controllers/changeMedicationInfo")
 
+const{
+    insertAlarm
+} = require("../controllers/inputMedicationInfo")
+
 const express = require("express");
 const router = express.Router();
 
@@ -24,4 +28,6 @@ router.post('/Confirm-medication_yes', medication_yes);
 //Change-medicationInfo
 router.post('/alarmNameToChange', alarmNameToChange);
 
+//Input-MedicationInfo  
+router.post('/Check-alarmInfo_right', insertAlarm);
 module.exports = router;
