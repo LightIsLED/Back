@@ -1,8 +1,8 @@
-const alarmList = require("../controllers/askAlarmList");
+const {alarmList} = require("../controllers/askAlarmList");
 const { whatToTake, medicationYes } = require("../controllers/askWhatToTake");
 const { alarmNameToChange } = require("../controllers/changeMedicationInfo");
 const {findAlarmInfo, deleteAlarm} = require("../controllers/deleteMedicationInfo");
-const insertAlarm = require("../controllers/inputMedicationInfo");
+const {insertAlarm} = require("../controllers/inputMedicationInfo");
 
 const express = require("express");
 const router = express.Router();

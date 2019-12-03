@@ -31,5 +31,5 @@ const endDateToChange = async(req, res, next) => {
 }
 */
 module.exports = {
-    alarmNameToChange,
+    alarmNameToChange
 };

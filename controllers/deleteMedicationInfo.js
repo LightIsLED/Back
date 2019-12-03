@@ -48,4 +48,7 @@ const deleteAlarm = async(req, res, next) => {
         next(error);
     });
 }
-module.exports = {findAlarmInfo, deleteAlarm};
+module.exports = {
+    findAlarmInfo, 
+    deleteAlarm
+};
