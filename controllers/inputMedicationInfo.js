@@ -9,16 +9,16 @@ const insertAlarm = async(req, res, next) => {
     try {
         //NUGU SPEAKER에서는 시간을 하나만 입력받음
         //time이 23:00형식으로 받아지기 때문에, ':'을 기준으로 hour과 minute를 나누는 함수
-        let startDate = moment().format('YYYY-MM-DD');
+        const startDate = moment().format('YYYY-MM-DD');
         const month = parseInt(req.body.action.parameters.endDate_month.value) >= 10 ? req.body.action.parameters.endDate_month.value : '0'+ req.body.action.parameters.endDate_month.value;
         const day = parseInt(req.body.action.parameters.endDate_month.value) >= 10 ? req.body.action.parameters.endDate_month.value : '0'+req.body.action.parameters.endDate_month.value;
         const dateFormat = (moment().tz('Asia/Seoul').format('YYYY')).toString() + month + day;
-        console.log("dateFormat:", dateFormat);
-        let endDate = moment(dateFormat).format('YYYY-MM-DD');
+        const endDate = moment(dateFormat).format('YYYY-MM-DD');
         console.log("endDate: ", endDate);
         let tempDate = moment().format('YYYY-MM-DD');
 
-        let hour = parseInt(req.body.action.parameters.alarmTime_hour.value);
+        let hour = req.body.action.parameters.alarmTime_duration.value === 'PM' ? parseInt(req.body.action.parameters.alarmTime_hour.value) + 12 : parseInt(req.body.action.parameters.alarmTime_hour.value);
+        hour = hour >= 24 ? hour-24 : hour;
         let min = (req.body.action.parameters).hasOwnProperty('alarmTime_min') === true ? parseInt(req.body.action.parameters.alarmTime_min.value) : 0;
 
         if(startDate>endDate){
@@ -26,12 +26,6 @@ const insertAlarm = async(req, res, next) => {
         }
 
         while(tempDate <= endDate){
-            if(alarmTime_duration === 'PM'){
-                hour = hour + 12;
-                if(hour >= 24){
-                    hour = hour - 24
-                }
-            }
             let schedule = await Schedule.create({
                 //테스트를 위해 임시로 1로 둠
                 userID: 1,//req.session.user.userID,
