@@ -1,5 +1,5 @@
 const alarmList = require("../controllers/askAlarmList");
-const { whatToTake, medication_yes } = require("../controllers/askWhatToTake");
+const { whatToTake, medicationYes } = require("../controllers/askWhatToTake");
 const { alarmNameToChange } = require("../controllers/changeMedicationInfo");
 const {findAlarmInfo, deleteAlarm} = require("../controllers/deleteMedicationInfo");
 const insertAlarm = require("../controllers/inputMedicationInfo");
@@ -10,9 +10,10 @@ const router = express.Router();
 //Answer-alarmList
 router.post('/Answer-alarmListToday', alarmList);
 router.post('/Answer-alarmListTheDay', alarmList);
+
 //Ask-whatToTake
 router.post('/Answer-whatToTake', whatToTake);
-router.post('/Confirm-medication', medication_yes);
+router.post('/Confirm-medication', medicationYes);
 
 //Change-medicationInfo
 router.post('/alarmNameToChange', alarmNameToChange);
@@ -23,4 +24,5 @@ router.post('/Check-delete', deleteAlarm);
 
 //Input-MedicationInfo  
 router.post('/Check-alarmInfo', insertAlarm);
+
 module.exports = router;

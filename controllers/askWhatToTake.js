@@ -61,7 +61,7 @@ const whatToTake = async(req, res, next) => {
     });
 }
 
-const medication_yes = async(req, res, next) => {
+const medicationYes = async(req, res, next) => {
     console.log(req.body);
     console.log(req.body.action.parameters);
     
@@ -98,5 +98,5 @@ const medication_yes = async(req, res, next) => {
 
 module.exports = {
     whatToTake,
-    medication_yes
+    medicationYes
 };
