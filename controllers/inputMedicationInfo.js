@@ -50,12 +50,17 @@ const insertAlarm = async(req, res, next) => {
             where: { medicineName: req.body.action.parameters.medicineName_input.value },
             attributes: ["medicineID", "medicineName"]
         }).spread( async(medicine) => {
+            var dose = (req.body.action.parameters).hasOwnProperty('dosage_input') === true ? req.body.action.parameters.dosage_input.value : null; 
+            
             MediSchedule.create({
                 medicineID: medicine.dataValues.medicineID,
                 scheID: schedule["dataValues"]["scheID"],
-                dose: req.body.action.parameters.dosage_input.value,
+                dose: dose,
                 medicineName: medicine.dataValues.medicineName,
-            });
+            }).catch(err => {
+                console.error(err);
+                next(err);
+            })
         }).catch((error) => {
             console.error(error);
             next(error);
