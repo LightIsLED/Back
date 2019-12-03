@@ -6,6 +6,7 @@ const json = require('./responseController');
 const insertAlarm = async(req, res, next) => {
     console.log(req.body);
     console.log(req.body.action.parameters);
+    //알람 정보를 유저가 확인하지 않았을 경우
     if(!(req.body.action.parameters).hasOwnProperty('Yes_alarmInfo')){
         //RESPONSE SAMPLE 형식에 맞춤
         let resObj = json.resObj();
@@ -14,16 +15,19 @@ const insertAlarm = async(req, res, next) => {
         console.log(resObj);
         res.json(resObj);
         res.end();
+        return;
     }
-    //NUGU SPEAKER에서는 시간을 하나만 입력받음
-    //time이 23:00형식으로 받아지기 때문에, ':'을 기준으로 hour과 minute를 나누는 함수
-    const startDate = moment().format('YYYY-MM-DD');
+    //NUGU SPEAKER에서는 시간을 하나만 입력받음    
     const month = parseInt(req.body.action.parameters.endDate_month.value) >= 10 ? req.body.action.parameters.endDate_month.value : '0' + req.body.action.parameters.endDate_month.value;
     const day = parseInt(req.body.action.parameters.endDate_month.value) >= 10 ? req.body.action.parameters.endDate_month.value : '0' + req.body.action.parameters.endDate_day.value;
     const dateFormat =  req.body.action.parameters.endDate_year.value + month + day;
     const endDate = moment(dateFormat).format('YYYY-MM-DD');
+
+    const startDate = moment().format('YYYY-MM-DD');
+    let tempDate =  moment().format('YYYY-MM-DD');
+    console.log("startDate: ", startDate);
     console.log("endDate: ", endDate);
-    let tempDate = moment().format('YYYY-MM-DD');
+    console.log("tempDate: ", tempDate);
 
     let hour = req.body.action.parameters.alarmTime_duration.value === 'PM' ? parseInt(req.body.action.parameters.alarmTime_hour.value) + 12 : parseInt(req.body.action.parameters.alarmTime_hour.value);
     hour = hour >= 24 ? hour-24 : hour;
@@ -34,7 +38,7 @@ const insertAlarm = async(req, res, next) => {
     }
 
     while(tempDate <= endDate){
-        let schedule = await Schedule.create({
+        await Schedule.create({
             //테스트를 위해 임시로 1로 둠
             userID: 1,//req.session.user.userID,
             scheName: req.body.action.parameters.alarmName_input.value,
@@ -43,31 +47,36 @@ const insertAlarm = async(req, res, next) => {
             scheMin: min,
             startDate: startDate,
             endDate: endDate
+        }).then((schedule) => {
+            await Medicine.findOrCreate({
+                where: { medicineName: req.body.action.parameters.medicineName_input.value },
+                attributes: ["medicineID", "medicineName"]
+            }).spread((medicine) => {
+                var dose = (req.body.action.parameters).hasOwnProperty('dosage_input') === true ? req.body.action.parameters.dosage_input.value : null; 
+                
+                MediSchedule.create({
+                    medicineID: medicine.dataValues.medicineID,
+                    scheID: schedule.dataValues.scheID,
+                    dose: dose,
+                    medicineName: medicine.dataValues.medicineName,
+                }).catch(err => {
+                    console.error(err);
+                    next(err);
+                });
+            }).catch(error => {
+                console.error(error);
+                next(error);
+            });
+        }).catch(e=>{
+            console.error(e);
+            next(e);
         });
-        
-        //NUGU SPEAKER에서는 약을 하나만 입력받도록 함
-        await Medicine.findOrCreate({
-            where: { medicineName: req.body.action.parameters.medicineName_input.value },
-            attributes: ["medicineID", "medicineName"]
-        }).spread( async(medicine) => {
-            var dose = (req.body.action.parameters).hasOwnProperty('dosage_input') === true ? req.body.action.parameters.dosage_input.value : null; 
-            
-            MediSchedule.create({
-                medicineID: medicine.dataValues.medicineID,
-                scheID: schedule["dataValues"]["scheID"],
-                dose: dose,
-                medicineName: medicine.dataValues.medicineName,
-            }).catch(err => {
-                console.error(err);
-                next(err);
-            })
-        }).catch((error) => {
-            console.error(error);
-            next(error);
-        });
+
         //Date를 다음 일자로 넘김.
         tempDate = moment(tempDate).add(1, 'd');
+        console.log("tempDate: ", tempDate);
     }
+
     //RESPONSE SAMPLE 형식에 맞춤
     let resObj = json.resObj();
     resObj.version = req.body.version;
