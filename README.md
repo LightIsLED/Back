@@ -10,11 +10,7 @@
     - [X] `Input-MedicationInfo`
 
 - UPDATE
-    1. `moment.js`에서 타임존 에러를 해결하기 위해 `moment-timezone`을 설치함.
-        ```
-        npm uninstall moment
-        ```
-        이후
+    1. 타임존 에러를 해결하기 위해 `moment-timezone`을 설치함. (기존의 `moment`도 사용)
         ```
         npm install moment-timezone
         ```
