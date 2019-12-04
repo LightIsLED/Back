@@ -47,12 +47,18 @@ const updateEndDate = async(req, res, next) => {
         if(prevEndDate > newEndDate){
             let tempDate = moment(newEndDate).add(1, 'd');
             tempDate = moment(tempDate).format('YYYY-MM-DD');
-            await Schedule.destroy({
-                where: {
-                    userID: parseInt(req.body.action.parameters.userID_3.value),
-                    scheName : schedule[0].scheName,
-                    endDate : {between : [Date.parse(tempDate), Date.parse(prevEndDate)]}
-                }
+
+            var secondQuery = "" + 
+            "DELETE FROM `SCHEDULES` " +
+            "WHERE `userID` =: userID, `scheName` = :scheName, `endDate` > :endDate";
+
+            await sequelize.query(secondQuery, {
+                replacements: {
+                    userID: parseInt(req.body.action.parameters.userID_3.value), 
+                    scheName: req.body.action.parameters.AlarmName.value,
+                    endDate : Date.parse(newEndDate)
+                }, 
+                type: Sequelize.QueryTypes.SELECT
             }).then(async()=> {
                 await Schedule.update({ endDate: Date.parse(newEndDate)},{
                     where: {
