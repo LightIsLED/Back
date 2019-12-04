@@ -31,7 +31,7 @@ const calendarDetail =  async (req, res) => {
     await Schedule.findAll({
         where: {
             //test를 위해 임시로 1로 둠
-            userID: 1,//req.session.user.userID,
+            userID: req.session.user.userID,
             scheDate: Date.parse(dateString),
         },
         attributes: ["scheID","scheName","scheHour","scheMin", "scheDate", "intake"]

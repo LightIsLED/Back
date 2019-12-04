@@ -19,7 +19,7 @@ const medicineList = async (req, res, next) => {
 
     await sequelize.query(query, 
         //test를 위해 임시로 1로 둠
-        {replacements: {userID: 1}, type: Sequelize.QueryTypes.SELECT}
+        {replacements: {userID: req.session.user.userID}, type: Sequelize.QueryTypes.SELECT}
     )
     .then((schedules) => {
         var grouped = groupBy(schedules, 'scheID');
@@ -27,7 +27,7 @@ const medicineList = async (req, res, next) => {
         res.render("medicineList", {
             title: "Mediger-Main",
             //test를 위해 임시로 1로 둠
-            user: 1,//req.session.user.userID,
+            user: req.session.user.userID,
             schedules: grouped,
         });
     })
@@ -81,7 +81,7 @@ const insertSchedule = async (req, res, next) => {
             while(tempDate <= endDate){
                 let schedule = await Schedule.create({
                     //테스트를 위해 임시로 1로 둠
-                    userID: 1,//req.session.user.userID,
+                    userID: req.session.user.userID,
                     scheName: req.body.scheName,
                     scheDate: tempDate,
                     scheHour: time[0],
