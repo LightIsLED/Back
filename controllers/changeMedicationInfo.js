@@ -54,25 +54,28 @@ const updateEndDate = async(req, res, next) => {
             "DELETE FROM SCHEDULES " +
             "WHERE userID=:userID AND scheName=:scheName AND scheDate>DATE(:endDate)";
 
-            await sequelize.query(secondQuery, {
+            sequelize.query(secondQuery, {
                 replacements: {
                     userID: parseInt(req.body.action.parameters.userID_3.value), 
                     scheName: req.body.action.parameters.AlarmName.value,
                     endDate : newEndDate
                 }, 
                 type: Sequelize.QueryTypes.SELECT
-            }).then(()=> {
-                Schedule.update({ endDate: new Date(newEndDate)},{
-                    where: {
-                        scheName: req.body.action.parameters.AlarmName.value,
-                        userID: parseInt(req.body.action.parameters.userID_3.value)
-                    }
-                });
-            }).catch(error => {
+            }).catch(e => {
+                console.error(e);
+                next(e);
+            });
+
+            Schedule.update({ endDate: new Date(newEndDate)},{
+                where: {
+                    scheName: req.body.action.parameters.AlarmName.value,
+                    userID: parseInt(req.body.action.parameters.userID_3.value)
+                }
+            }).catch((error) => {
                 console.error(error);
                 next(error);
                 return;
-            });
+            }); 
         }
         
         //변경할 종료날짜가 기존 날짜보다 작을 경우
@@ -127,6 +130,7 @@ const updateEndDate = async(req, res, next) => {
                 next(ce);
             }
         } //else if문 종료
+
         //RESPONSE
         let resObj = json.resObj();
         resObj.version = req.body.version;
