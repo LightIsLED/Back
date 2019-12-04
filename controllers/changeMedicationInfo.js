@@ -33,6 +33,8 @@ const updateEndDate = async(req, res, next) => {
     await sequelize.query(query, 
             {replacements: {userID: parseInt(req.body.action.parameters.userID_3.value), scheName: req.body.action.parameters.AlarmName.value}, type: Sequelize.QueryTypes.SELECT}
     ).then(async (schedule) => {
+        console.log(schedule);
+
         //누구스피커로부터 날짜 받음
         const prevEndDate = moment(schedule[0].endDate).format('YYYY-MM-DD');
         const month = parseInt(req.body.action.parameters.newEndDate_month.value) >= 10 ? req.body.action.parameters.newEndDate_month.value : '0' + req.body.action.parameters.newEndDate_month.value;
@@ -75,10 +77,10 @@ const updateEndDate = async(req, res, next) => {
                 }).then(async(tempSchedule) => {
                     //create MediSchedule
                     await MediSchedule.create({
-                        medicineID: schedule.medicineID,
+                        medicineID: schedule[0].medicineID,
                         scheID: tempSchedule.dataValues.scheID,
-                        dose: schedule.dose,
-                        medicineName: schedule.medicineName,
+                        dose: schedule[0].dose,
+                        medicineName: schedule[0].medicineName,
                     }).catch(err => {
                         console.error(err);
                         next(err);
