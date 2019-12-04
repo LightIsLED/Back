@@ -37,7 +37,7 @@ const insertAlarm = async(req, res, next) => {
         throw new Error("시작일이 종료일보다 큽니다.");
     }
 
-    let num = moment.duration(endDate.diff(startDate)).asDays();
+    let num = moment.duration(moment(endDate).diff(moment(startDate), 'days'));
     console.log("num: ", num);
 
     for(i = 1; i <= num ; i++){
@@ -69,7 +69,7 @@ const insertAlarm = async(req, res, next) => {
                     console.error(err);
                     next(err);
                 });
-                
+
             }).catch(error => {
                 console.error(error);
                 next(error);
