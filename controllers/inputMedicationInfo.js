@@ -1,6 +1,7 @@
 const { Schedule, Medicine, MediSchedule } = require("../models");
 
-const moment = require('moment-timezone');
+const momenttz = require('moment-timezone');
+const moment = require('moment');
 const json = require('./responseController');
 
 const insertAlarm = async(req, res, next) => {
@@ -23,8 +24,8 @@ const insertAlarm = async(req, res, next) => {
     const dateFormat =  req.body.action.parameters.endDate_year.value + month + day;
     const endDate = moment(dateFormat).format('YYYY-MM-DD');
 
-    const startDate = moment().tz('Asia/Seoul').format('YYYY-MM-DD');
-    let tempDate =  moment().tz('Asia/Seoul').format('YYYY-MM-DD');
+    const startDate = momenttz().tz('Asia/Seoul').format('YYYY-MM-DD');
+    let tempDate =  momenttz().tz('Asia/Seoul').format('YYYY-MM-DD');
     console.log("startDate: ", startDate);
     console.log("endDate: ", endDate);
     console.log("tempDate: ", tempDate);
@@ -73,7 +74,7 @@ const insertAlarm = async(req, res, next) => {
         });
 
         //Date를 다음 일자로 넘김.
-        tempDate = moment().add(1, 'd');
+        tempDate = moment().add(1, 'days');
         tempDate = moment(tempDate).format('YYYY-MM-DD');
 
         console.log("tempDate: ", tempDate);
