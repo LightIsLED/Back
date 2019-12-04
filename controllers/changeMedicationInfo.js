@@ -62,15 +62,11 @@ const updateEndDate = async(req, res, next) => {
                 }, 
                 type: Sequelize.QueryTypes.SELECT
             }).then(()=> {
-                Schedule.update({ endDate: newEndDate},{
+                Schedule.update({ endDate: new Date(newEndDate)},{
                     where: {
                         scheName: req.body.action.parameters.AlarmName.value,
                         userID: parseInt(req.body.action.parameters.userID_3.value)
                     }
-                }).catch(serr => {
-                    console.error(serr);
-                    next(serr);
-                    return;
                 });
             }).catch(error => {
                 console.error(error);
