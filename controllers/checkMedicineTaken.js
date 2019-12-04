@@ -37,10 +37,12 @@ const selectAlarmList = async(req, res, next) => {
         }).catch(error => {
             console.error(error);
             next(error);
+            return;
         });
     }).catch(err => {
         console.error(err);
         next(err);
+        return;
     });
 }
 
@@ -74,6 +76,7 @@ const updateIntake = async(req, res, next) => {
     }).catch(error => {
         console.error(error);
         next(error);
+        return;
     });
 }
 

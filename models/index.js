@@ -17,10 +17,10 @@ db.Recommend = require('./recommends')(sequelize, Sequelize);
 db.MediSchedule = require('./mediSchedules')(sequelize, Sequelize);
 
 //db.User.hasMany(db.Schedule);
-db.Schedule.belongsTo(db.User, {foreignKey: 'userID'});
+db.Schedule.belongsTo(db.User, {foreignKey: 'userID', onDelete: 'cascade'});
 
 //db.Medicine.hasMany(db.MediSchedule);
-db.MediSchedule.belongsTo(db.Medicine, {foreignKey: 'medicineID'});
+//db.MediSchedule.belongsTo(db.Medicine, {foreignKey: 'medicineID'});
 
 //db.Schedule.hasMany(db.MediSchedule, {foreignKey: 'scheID', sourceKey: 'scheID'});
 db.MediSchedule.belongsTo(db.Schedule, {foreignKey: 'scheID', onDelete: 'cascade'});
