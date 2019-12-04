@@ -1,4 +1,4 @@
-const { Schedule, Medicine, MediSchedule } = require("../models");
+const { Schedule, Medicine, MediSchedule } = require("../../models");
 
 const momenttz = require('moment-timezone');
 const moment = require('moment');

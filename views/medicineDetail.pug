@@ -1,0 +1,24 @@
+doctype html
+- var date = new Date();
+body
+    .alarms
+        form(action="/medicines/updateMedicine", method="POST")
+            - var count = 0
+            for alarm in alarms
+                if (count===0)
+                    - count = count + 1
+                    input#scheID(type='hidden' name='scheID' value=alarm.scheID)
+                    input#date(type='hidden' name='date' value=alarm.scheDate)
+                    - var time = alarm.scheHour + " : " + alarm.scheMin
+                    p 
+                        | 알람 이름: 
+                        input(type="text", name="scheName", value=alarm.scheName)
+                    p
+                        | 시간: #{time}
+                    
+                p
+                    | 약 이름: 
+                    input(type="text", name="medicineName", value=alarm.medicineName)
+                    | 복용량: 
+                    input(type="text", name="dose", value=alarm.dose)
+            input(type="submit" value="수정")

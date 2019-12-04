@@ -1,0 +1,36 @@
+doctype HTML
+html
+- var date = new Date().getDate();
+    head
+        title #{title}
+        script(src="/socket.io/socket.io.js")
+        script.
+            var socket = io.connect('http://localhost:2000/alarm',{
+                path: '/socket.io'
+            });
+            socket.emit("ready", {});
+            socket.on('alarm', (data)=>{
+                alert(data.scheName+" "+data.scheHour+":"+data.scheMin);
+            });
+    body
+        .calendar
+            a(href="/calendar/"+`${-2}`) #{date-2}
+            a(href="/calendar/"+`${-1}`) #{date-1}
+            a(href="/calendar/"+`${0}`) #{date}
+            a(href="/calendar/"+`${1}`) #{date+1}
+            a(href="/calendar/"+`${2}`) #{date+2}
+        
+        .alarmList
+            if (schedules!=null)
+                for schedule in schedules
+                    li="알람 이름: " + schedule.scheName
+                    - time = schedule.scheHour + " : " + schedule.scheMin
+                    li="알람 시간: " + time
+                    li="알람 일자: " + schedule.scheDate
+                    if(schedule.intake===true)
+                        li="복용: " + "green"
+                    else
+                        li="미복용: " + "grey"
+                    a(href="/calendar/"+`${userDate}`+"/"+`${schedule.scheID}`+"") 상세 정보
+        .footer
+            include footer.pug

@@ -1,0 +1,27 @@
+doctype html
+head
+    title Mediger
+    script.
+        function accomAppend(form){
+            append = document.getElementById("appendAccom");
+            append.innerHTML += "<br>accompanier Name: <input type=text name=accompanierName><br>"
+            append.innerHTML += "accompanier Phone: <input type=text name=accompanierPhone><br>"
+        }
+body
+    .userInfo
+        form(action="/user/edit", method="post")
+            ul
+                li="Name: "+user.userName
+                li="Birthday: "+user.birth
+                if(user.sex === 0)
+                    li="Sex: male"
+                else
+                    li="Sex: female"
+                div#appendAccom
+                    input(type="button", value="accompanier info edit", onclick="accomAppend(this.form)")
+                input(type="submit", value="update")
+    .add
+        form(action="/user/edit", method="get")
+            input(type="submit", value="edit")
+    .footer
+        include footer.pug

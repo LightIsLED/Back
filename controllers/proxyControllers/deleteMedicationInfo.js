@@ -1,4 +1,4 @@
-const {Schedule} = require('../models')
+const {Schedule} = require('../../models')
 
 const json = require('./responseController');
 

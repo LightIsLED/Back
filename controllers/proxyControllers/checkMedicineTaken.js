@@ -1,4 +1,4 @@
-const {Schedule} = require('../models');
+const {Schedule} = require('../../models');
 
 const moment = require('moment-timezone');
 const json = require('./responseController');

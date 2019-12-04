@@ -1,11 +1,11 @@
 const Sequelize = require('sequelize');
 const env = process.env.NODE_ENV || 'development';
-const config = require('../config/config')[env];
+const config = require('../../config/config')[env];
 const sequelize = new Sequelize(
     config.database, config.username, config.password, config,
 );
 
-const {Schedule} = require("../models");
+const {Schedule} = require("../../models");
 const json = require('./responseController');
 
 const moment = require('moment-timezone');

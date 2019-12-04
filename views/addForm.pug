@@ -1,0 +1,38 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        script.
+            mediCount=0;
+            timeCount=0;
+            function mediAppend(form){
+                mediCount = mediCount+1;
+                append = document.getElementById("appendmedi");
+                append.innerHTML += "약물"+ mediCount + " 이름: <input type=text name=mediName><br>"
+                append.innerHTML += "약물"+ mediCount + " 복용량 : <input type=text name=dose><br>"
+            }
+            function timeAppend(form){
+                timeCount = timeCount+1;
+                append = document.getElementById("appendtime");
+                append.innerHTML += timeCount + " : <input type=time name=time><br>"
+            }
+    body
+        div#mediSubmit
+            form(action='/medicines/insert' method='POST')
+                div#mediInput2
+                    p
+                        | 알람 이름 
+                        input(type="text", name="scheName")
+                    p
+                        | 시작일 
+                        input(type="date", name="startDate")
+                    p
+                        | 종료일 
+                        input(type="date", name="endDate")
+                    div#appendmedi
+                    p
+                        input(type="button", value="약물 추가", onclick="mediAppend(this.form)")
+                    div#appendtime
+                    p
+                        input(type="button", value="시간 추가", onclick="timeAppend(this.form)")
+                    input(type="submit", value="등록")

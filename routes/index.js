@@ -1,12 +1,31 @@
-const {alarmList} = require("../controllers/askAlarmList");
-const { whatToTake, medicationYes } = require("../controllers/askWhatToTake");
-const { updateEndDate, updateAlarmTime, updateMedicineName } = require("../controllers/changeMedicationInfo");
-const { selectAlarmList, updateIntake } = require("../controllers/checkMedicineTaken")
-const {findAlarmInfo, deleteAlarm} = require("../controllers/deleteMedicationInfo");
-const {insertAlarm} = require("../controllers/inputMedicationInfo");
+//Proxy-Controllers
+const {alarmList} = require("../controllers/proxyControllers/askAlarmList");
+const { whatToTake, medicationYes } = require("../controllers/proxyControllers/askWhatToTake");
+const { updateEndDate, updateAlarmTime, updateMedicineName } = require("../controllers/proxyControllers/changeMedicationInfo");
+const { selectAlarmList, updateIntake } = require("../controllers/proxyControllers/checkMedicineTaken")
+const {findAlarmInfo, deleteAlarm} = require("../controllers/proxyControllers/deleteMedicationInfo");
+const {insertAlarm} = require("../controllers/proxyControllers/inputMedicationInfo");
 
 const express = require("express");
+
+//Server-Routers
+const authRouter = require("./serverRoutes/authRouter");
+const calendarRouter = require("./serverRoutes/calendarRouter");
+const userRouter = require("./serverRoutes/userRouter");
+const medicineRouter = require("./serverRoutes/medicineRouter");
+
 const router = express.Router();
+
+//Server-Repository
+//---start----
+router.use("/", authRouter);
+router.use("/calendar", calendarRouter);
+router.use("/user", userRouter);
+router.use("/medicines", medicineRouter);
+
+
+//Proxy-Repository
+//---start---
 
 //Answer-alarmList
 router.post('/Answer-alarmListToday', alarmList);

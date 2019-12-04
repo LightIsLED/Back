@@ -1,0 +1,24 @@
+doctype html
+- var date = new Date();
+- var today = String(date.getMonth()+1)+"/"+String(date.getDate());
+body
+    .alarms
+        form(action="/calendar/alarmRecord", method="POST")
+            - var count = 0
+            for alarm in alarms
+                if (count===0)
+                    - count = count + 1
+                    input#scheID(type='hidden' name='scheID' value=alarm.scheID)
+                    input#date(type='hidden' name='date' value=alarm.scheDate)
+                    - var time = alarm.scheHour + " : " + alarm.scheMin
+                    ul
+                        li= "알람 이름: " + alarm.scheName
+                        li= time
+                    if(alarm.intake===false)
+                        li= "복용 여부: grey"
+                    else
+                        li= "복용 여부: green"
+                ul
+                    li= "약 이름: " + alarm.medicineName
+                    li= "복용량: " + alarm.dose
+            input(type="submit" value="복용")
