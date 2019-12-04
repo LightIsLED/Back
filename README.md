@@ -1,4 +1,4 @@
-# Proxy 
+# Proxy-NUGU 
 
 - TODO List
     - [X] `Ask-MedicineList`
