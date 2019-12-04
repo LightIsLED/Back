@@ -53,7 +53,7 @@ const updateEndDate = async(req, res, next) => {
                     scheName : schedule[0].scheName,
                     endDate : {between : [Date.parse(tempDate), Date.parse(prevEndDate)]}
                 }
-            }).then(()=> {
+            }).then(async()=> {
                 await Schedule.update({ endDate: Date.parse(newEndDate)},{
                     where: {
                         scheName: req.body.action.parameters.AlarmName.value,
