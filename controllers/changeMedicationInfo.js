@@ -58,7 +58,7 @@ const updateEndDate = async(req, res, next) => {
         }
         //변경할 종료날짜가 기존 날짜보다 작을 경우
         else if(prevEndDate < newEndDate){
-            let num = moment.duration(moment(newEndDate).diff(moment(prevEndDate), 'days'));
+            let num = parseInt(moment.duration(moment(newEndDate).diff(moment(prevEndDate), 'days')));
             console.log("num: ", num);
 
             for(i = 0; i <= num ; i++){
