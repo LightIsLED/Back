@@ -3,15 +3,18 @@
 - TODO List
     - [X] `Ask-MedicineList`
     - [X] `Ask-whatToTake`
-    - [ ] `Change-medicationInfo`
+    - [X] `Change-medicationInfo`
     - [X] `Check-MedicineTaken`
     - [X] `Delete-MedicationInfo`
     - [X] `Input-MedicationInfo`
 
 - UPDATE
-    1. 타임존 에러를 해결하기 위해 `moment-timezone`을 설치함.
+    1. 타임존 에러를 해결하기 위해 `moment-timezone`,  `moment`를 설치함.
         ```
         npm install moment-timezone
+        ```
+        ```
+        npm install moment
         ```
 
 - Trigger별로 Controller 나눔

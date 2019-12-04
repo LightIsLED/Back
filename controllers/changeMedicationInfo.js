@@ -71,7 +71,7 @@ const updateEndDate = async(req, res, next) => {
                     scheName: req.body.action.parameters.AlarmName.value,
                     userID: parseInt(req.body.action.parameters.userID_3.value)
                 }
-            }).catch((error) => {
+            }).catch(error => {
                 console.error(error);
                 next(error);
                 return;
