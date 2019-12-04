@@ -37,7 +37,7 @@ const updateEndDate = async(req, res, next) => {
         const prevEndDate = moment(schedule[0].endDate).format('YYYY-MM-DD');
         const month = parseInt(req.body.action.parameters.newEndDate_month.value) >= 10 ? req.body.action.parameters.newEndDate_month.value : '0' + req.body.action.parameters.newEndDate_month.value;
         const day = parseInt(req.body.action.parameters.newEndDate_day.value) >= 10 ? req.body.action.parameters.newEndDate_day.value : '0' + req.body.action.parameters.newEndDate_day.value;
-        const dateFormat =  req.body.action.parameters.endDate_year.value + month + day;
+        const dateFormat = req.body.action.parameters.newEndDate_year.value + month + day;
         
         const newEndDate = moment(dateFormat).format('YYYY-MM-DD');
         
