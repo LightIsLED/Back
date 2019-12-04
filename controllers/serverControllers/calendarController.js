@@ -8,6 +8,7 @@ const sequelize = new Sequelize(
 const {Schedule} = require("../../models");
 
 const moment = require('moment');
+const momenttz = require('moment-timezone');
 
 const calendar = (req, res) => {
     res.render("calendar",{
@@ -17,14 +18,14 @@ const calendar = (req, res) => {
 }
 
 const calendarDetail =  async (req, res) => {
-    let dateString=moment().format('YYYY-MM-DD');
+    let dateString=moment().tz('Asia/Seoul').format('YYYY-MM-DD');
     if(req.params.date<0){
         var value = Math.abs(req.params.date);
-        dateString = moment().subtract(value, 'd');
+        dateString = moment(dateString).subtract(value, 'd');
         dateString = moment(dateString).format('YYYY-MM-DD');
     }
     else if (req.params.date>0){
-        dateString = moment().add(req.params.date, 'd');
+        dateString = moment(dateString).add(req.params.date, 'd');
         dateString = moment(dateString).format('YYYY-MM-DD');
     }
     console.log(dateString);
