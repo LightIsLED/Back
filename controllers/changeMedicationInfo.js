@@ -51,8 +51,8 @@ const updateEndDate = async(req, res, next) => {
             tempDate = moment(tempDate).format('YYYY-MM-DD');
 
             var secondQuery = "" + 
-            "DELETE FROM `SCHEDULES` " +
-            "WHERE `userID` =: userID AND `scheName` = :scheName AND `scheDate` > DATE(:endDate)";
+            "DELETE FROM SCHEDULES " +
+            "WHERE userID=:userID AND scheName=:scheName AND scheDate>DATE(:endDate)";
 
             await sequelize.query(secondQuery, {
                 replacements: {
