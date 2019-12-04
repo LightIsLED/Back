@@ -42,7 +42,8 @@ router.post('/Check-medicineName', updateMedicineName);
 
 //Check-MedicineTaken
 router.post('/Check-alarmTaken', selectAlarmList);
-router.post('/Check-MedicineTaken_missing', updateIntake);
+router.post('/Check-allNotTaken-intake', updateIntake)
+router.post('/Check-someNotTaken-missing', updateIntake);
 
 //Delete-MedicationInfo
 router.post('/Ask-alarmNameToDelete', findAlarmInfo);

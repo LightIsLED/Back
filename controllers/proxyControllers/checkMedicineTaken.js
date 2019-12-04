@@ -50,7 +50,7 @@ const updateIntake = async(req, res, next) => {
     console.log(req.body);
     console.log(req.body.action.parameters);
     
-    if(!(req.body.action.parameters).hasOwnProperty('Yes_medicineTaken')){
+    if(!((req.body.action.parameters).hasOwnProperty('Yes_medicineTaken')||(req.body.action.parameters).hasOwnProperty('Yes_allNotIntaken'))){
         //RESPONSE SAMPLE 형식에 맞춤
         let resObj = json.resObj();
         resObj.version = req.body.version;
@@ -68,7 +68,12 @@ const updateIntake = async(req, res, next) => {
     }).then(()=> {
         let resObj = json.resObj();
         resObj.version = req.body.version;
-        resObj.output.Yes_medicineTaken = req.body.action.parameters.Yes_medicineTaken.value;        
+        if((req.body.action.parameters).hasOwnProperty('Yes_medicineTaken')){
+            resObj.output.Yes_medicineTaken = req.body.action.parameters.Yes_medicineTaken.value;
+        }
+        if((req.body.action.parameters).hasOwnProperty('Yes_allNotIntaken')){
+            resObj.output.Yes_allNotIntaken = req.body.action.parameters.Yes_allNotIntaken.value;
+        }
         console.log(resObj);
         res.json(resObj);
         res.end();
