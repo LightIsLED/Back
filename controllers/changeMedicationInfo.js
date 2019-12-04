@@ -42,6 +42,8 @@ const updateEndDate = async(req, res, next) => {
         const dateFormat = req.body.action.parameters.newEndDate_year.value + month + day;
         
         const newEndDate = moment(dateFormat).format('YYYY-MM-DD');
+        console.log("prevEndDate: ", prevEndDate);
+        console.log("newEndDate: ", newEndDate);
         
         //변경할 종료날짜가 기존 종료날짜보다 클 경우
         if(prevEndDate > newEndDate){
@@ -75,52 +77,59 @@ const updateEndDate = async(req, res, next) => {
                 next(error);
             });
         }
+        
         //변경할 종료날짜가 기존 날짜보다 작을 경우
         else if(prevEndDate < newEndDate){
-            let num = parseInt(moment.duration(moment(newEndDate).diff(moment(prevEndDate), 'days')));
-            console.log("num: ", num);
-            //기존 알람의 종료일자 업데이트
-            await Schedule.update({ endDate: Date.parse(newEndDate)},{
-                where: {
-                    scheName: req.body.action.parameters.AlarmName.value,
-                    userID: parseInt(req.body.action.parameters.userID_3.value)
-                }
-            }).catch(error => {
-                console.error(error);
-                next(error);
-            });
-            //알람 추가
-            for(i = 0; i <= num ; i++){
-                //변경할 종료날짜
-                let tempDate = moment(prevEndDate).add(i, 'd');
-                tempDate = moment(tempDate).format('YYYY-MM-DD');
-                //create Schedule
-                await Schedule.create({
-                    userID: parseInt(req.body.action.parameters.userID_3.value),
-                    scheName: schedule[0].scheName,
-                    scheDate: tempDate,
-                    scheHour: schedule[0].scheHour,
-                    scheMin: schedule[0].scheMin,
-                    startDate: schedule[0].startDate,
-                    endDate: newEndDate
-                }).then(async(tempSchedule) => {
-                    //create MediSchedule
-                    await MediSchedule.create({
-                        medicineID: schedule[0].medicineID,
-                        scheID: tempSchedule.dataValues.scheID,
-                        dose: schedule[0].dose,
-                        medicineName: schedule[0].medicineName,
-                    }).catch(err => {
-                        console.error(err);
-                        next(err);
-                    });
+            try{
+                //기존 알람의 종료일자 업데이트
+                await Schedule.update({ endDate: newEndDate },{
+                    where: {
+                        scheName: req.body.action.parameters.AlarmName.value,
+                        userID: parseInt(req.body.action.parameters.userID_3.value)
+                    }
                 }).catch(error => {
                     console.error(error);
                     next(error);
                 });
-            }//for문 종료
-        }//elseif문 종료
 
+                let num = moment(newEndDate).diff(moment(prevEndDate), 'days');
+                console.log("num: ", num);
+
+                //알람 추가
+                for(i = 0; i <= num ; i++){
+                    //변경할 종료날짜
+                    let tempDate = moment(prevEndDate).add(i, 'd');
+                    tempDate = moment(tempDate).format('YYYY-MM-DD');
+                    //create Schedule
+                    await Schedule.create({
+                        userID: parseInt(req.body.action.parameters.userID_3.value),
+                        scheName: schedule[0].scheName,
+                        scheDate: tempDate,
+                        scheHour: schedule[0].scheHour,
+                        scheMin: schedule[0].scheMin,
+                        startDate: schedule[0].startDate,
+                        endDate: newEndDate
+                    }).then(async(tempSchedule) => {
+                        //create MediSchedule
+                        await MediSchedule.create({
+                            medicineID: schedule[0].medicineID,
+                            scheID: tempSchedule.dataValues.scheID,
+                            dose: schedule[0].dose,
+                            medicineName: schedule[0].medicineName,
+                        }).catch(err => {
+                            console.error(err);
+                            next(err);
+                        });
+                    }).catch(error => {
+                        console.error(error);
+                        next(error);
+                    });
+                }//for문 종료
+            } catch(ce){
+                console.error(ce);
+                next(ce);
+            }
+        } //else if문 종료
         //RESPONSE
         let resObj = json.resObj();
         resObj.version = req.body.version;
