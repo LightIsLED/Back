@@ -5,31 +5,203 @@ const sequelize = new Sequelize(
     config.database, config.username, config.password, config,
 );
 
-const alarmNameToChange = async(req, res, next) => {
-    const alarmName = req.body.action.parameters.AlarmName;
-    var query = 'SELECT scheID AS changeMedicationInfo_scheID' + 
-    'FROM SCHEDULES WHERE scheName=:alarmName';
+const {Schedule, MediSchedule, Medicine} = require('../models')
 
-    sequelize.query(query, 
-        {replacements: {alarmName : alarmName}, type: Sequelize.QueryTypes.SELECT}
-    ).then(result => {
-        res.json(result);
-    }).catch(error => {
-        console.error(error);
+const json = require('./responseController');
+const moment = require('moment');
+
+const updateEndDate = async(req, res, next) => {
+    console.log(req.body);
+    console.log(req.body.action.parameters);
+    
+    if(!(req.body.action.parameters).hasOwnProperty('Yes_changeEndDate')){
+        //RESPONSE SAMPLE 형식에 맞춤
+        let resObj = json.resObj();
+        resObj.version = req.body.version;
+        resObj.output.No_changeEndDate = req.body.action.parameters.No_changeEndDate.value;
+        console.log(resObj);
+        res.json(resObj);
+        res.end();
+        return;
+    }
+
+    var query = "" + 
+    "SELECT SCHEDULES.scheID, SCHEDULES.scheName, SCHEDULES.scheHour, SCHEDULES.scheMin, SCHEDULES.startDate, SCHEDULES.endDate, MEDISCHEDULES.medicineID, MEDISCHEDULES.medicineName, MEDISCHEDULES.dose " + 
+    "FROM SCHEDULES JOIN MEDISCHEDULES ON SCHEDULES.scheID=MEDISCHEDULES.scheID " + 
+    "WHERE SCHEDULES.userID=:userID AND SCHEDULES.scheName=:scheName";
+
+    await sequelize.query(query, 
+            {replacements: {userID: parseInt(req.body.action.parameters.userID_3.value), scheName: req.body.action.parameters.AlarmName.value}, type: Sequelize.QueryTypes.SELECT}
+    ).then(async (schedule) => {
+        //누구스피커로부터 날짜 받음
+        const prevEndDate = moment(schedule[0].endDate).format('YYYY-MM-DD');
+        const month = parseInt(req.body.action.parameters.newEndDate_month.value) >= 10 ? req.body.action.parameters.newEndDate_month.value : '0' + req.body.action.parameters.newEndDate_month.value;
+        const day = parseInt(req.body.action.parameters.newEndDate_day.value) >= 10 ? req.body.action.parameters.newEndDate_day.value : '0' + req.body.action.parameters.newEndDate_day.value;
+        const dateFormat =  req.body.action.parameters.endDate_year.value + month + day;
+        
+        const newEndDate = moment(dateFormat).format('YYYY-MM-DD');
+        
+        //변경할 종료날짜가 기존 종료날짜보다 클 경우
+        if(prevEndDate > newEndDate){
+            await Schedule.destroy({
+                where: {
+                    userID: parseInt(req.body.action.parameters.userID_3.value),
+                    scheName : schedule[0].scheName,
+                    endDate : {gt : Date.parse(newEndDate)}
+                }
+            }).catch(error => {
+                console.error(error);
+                next(error);
+            });
+        }
+        //변경할 종료날짜가 기존 날짜보다 작을 경우
+        else if(prevEndDate < newEndDate){
+            let num = moment.duration(moment(newEndDate).diff(moment(prevEndDate), 'days'));
+            console.log("num: ", num);
+
+            for(i = 0; i <= num ; i++){
+                //변경할 종료날짜
+                let tempDate = moment(prevEndDate).add(i, 'd');
+                tempDate = moment(tempDate).format('YYYY-MM-DD');
+                //create Schedule
+                await Schedule.create({
+                    userID: parseInt(req.body.action.parameters.userID_3.value),
+                    scheName: schedule[0].scheName,
+                    scheDate: tempDate,
+                    scheHour: schedule[0].scheHour,
+                    scheMin: schedule[0].scheMin,
+                    startDate: schedule[0].startDate,
+                    endDate: newEndDate
+                }).then(async(tempSchedule) => {
+                    //create MediSchedule
+                    await MediSchedule.create({
+                        medicineID: schedule.medicineID,
+                        scheID: tempSchedule.dataValues.scheID,
+                        dose: schedule.dose,
+                        medicineName: schedule.medicineName,
+                    }).catch(err => {
+                        console.error(err);
+                        next(err);
+                    });
+                }).catch(error => {
+                    console.error(error);
+                    next(error);
+                });
+            }//for문 종료
+        }//elseif문 종료
+
+        //RESPONSE
+        let resObj = json.resObj();
+        resObj.version = req.body.version;
+        resObj.output.Yes_changeEndDate = req.body.action.parameters.Yes_changeEndDate.value;
+        console.log(resObj);
+        res.json(resObj);
+        res.end();
+        return;
+    }).catch(e => {
+        console.error(e);
+        next(e);
     });
 }
 
-/*
-const endDateToChange = async(req, res, next) => {
-    Schedule.find({
-        where: {scheID: req.body.action.parameters.changeMedicationInfo_scheID},
-    }).then((end)=> {
-        if(Date.parse(end.dataValues.endDate) <= Date.parse(req.body.action.parameters.endDate)){
-            "INSERT INTO SCHEDULES(scheName, startDate, endDate, scheDate) VALUES"
+const updateAlarmTime = async(req, res, next) => {
+    console.log(req.body);
+    console.log(req.body.action.parameters);
+
+    if(!(req.body.action.parameters).hasOwnProperty('Yes_changedAlarmTime')){
+        //RESPONSE SAMPLE 형식에 맞춤
+        let resObj = json.resObj();
+        resObj.version = req.body.version;
+        resObj.output.No_changedAlarmTime = req.body.action.parameters.No_changedAlarmTime.value;
+        console.log(resObj);
+        res.json(resObj);
+        res.end();
+        return;
+    }
+
+    let hour = req.body.action.parameters.newAlarmTime_duration.value === 'PM' ? parseInt(req.body.action.parameters.newAlarmTime_hour.value) + 12 : parseInt(req.body.action.parameters.newAlarmTime_hour.value);
+    hour = hour >= 24 ? hour-24 : hour;
+    const min = (req.body.action.parameters).hasOwnProperty('alarmTime_min') === true ? parseInt(req.body.action.parameters.newAlarmTime_min.value) : 0;
+
+    await Schedule.update({
+        scheHour : hour,
+        scheMin: min
+    },{
+        where: {
+            scheName: req.body.action.parameters.AlarmName.value,
+            userID: parseInt(req.body.action.parameters.userID_3.value)
         }
-    })
+    }).then(()=>{
+        let resObj = json.resObj();
+        resObj.version = req.body.version;
+        resObj.output.Yes_changedAlarmTime = req.body.action.parameters.Yes_changedAlarmTime.value;
+        console.log(resObj);
+        res.json(resObj);
+        res.end();
+        return;
+    }).catch(err => {
+        console.error(err);
+        next(err);
+    });
 }
-*/
+
+const updateMedicineName = async(req, res, next) => {
+    console.log(req.body);
+    console.log(req.body.action.parameters);
+
+    if(!(req.body.action.parameters).hasOwnProperty('Yes_changedMedicineName')){
+        //RESPONSE SAMPLE 형식에 맞춤
+        let resObj = json.resObj();
+        resObj.version = req.body.version;
+        console.log(resObj);
+        res.json(resObj);
+        res.end();
+        return;
+    }
+
+    await Schedule.findAll({
+        where: {
+            userID: parseInt(req.body.action.parameters.userID_3.value), 
+            scheName: req.body.action.parameters.AlarmName.value
+        }
+    }).then(async (schedule) => {
+        const medicine = await Medicine.findOrCreate({
+            where: {
+                medicineName : req.body.action.parameters.newMedicineName.value
+            }
+        }).catch(error => {
+            console.error(error);
+            next(error);
+        });
+
+        for(i=0; i<schedule.length; i++){
+            await MediSchedule.update({
+                medicineID : medicine["dataValues"]["medicineID"],
+                medicineName: medicine["dataValues"]["medicineName"],
+                dose : req.body.action.parameters.newDosage.values
+            }, {
+                where: {scheID : schedule[i].dataValues.scheID}
+            }).catch(error => {
+                console.error(error);
+                next(error);
+            });
+        }
+    }).catch(e => {
+        console.error(e);
+        next(e);
+    });
+
+    let resObj = json.resObj();
+    resObj.version = req.body.version;
+    resObj.Yes_changedMedicineName = req.body.action.parameters.Yes_changedMedicineName.value;
+    console.log(resObj);
+    res.json(resObj);
+    res.end();
+    return;
+}
+
 module.exports = {
-    alarmNameToChange
+    updateEndDate,
+    updateAlarmTime,
+    updateMedicineName
 };

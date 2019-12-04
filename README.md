@@ -4,8 +4,7 @@
     - [X] `Ask-MedicineList`
     - [X] `Ask-whatToTake`
     - [ ] `Change-medicationInfo`
-    - [ ] `Check-MedicineToTake`
-    - [ ] `Check-MedicineTaken`
+    - [X] `Check-MedicineTaken`
     - [X] `Delete-MedicationInfo`
     - [X] `Input-MedicationInfo`
 

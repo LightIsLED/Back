@@ -45,8 +45,7 @@ const insertAlarm = async(req, res, next) => {
         tempDate = moment(tempDate).format('YYYY-MM-DD');
 
         await Schedule.create({
-            //테스트를 위해 임시로 1로 둠
-            userID: 1,//req.session.user.userID,
+            userID: parseInt(req.body.action.parameters.userID_7.value),
             scheName: req.body.action.parameters.alarmName_input.value,
             scheDate: tempDate,
             scheHour: hour,
