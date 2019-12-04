@@ -45,12 +45,24 @@ const updateEndDate = async(req, res, next) => {
         
         //변경할 종료날짜가 기존 종료날짜보다 클 경우
         if(prevEndDate > newEndDate){
+            let tempDate = moment(newEndDate).add(1, 'd');
+            tempDate = moment(tempDate).format('YYYY-MM-DD');
             await Schedule.destroy({
                 where: {
                     userID: parseInt(req.body.action.parameters.userID_3.value),
                     scheName : schedule[0].scheName,
-                    endDate : {gt : Date.parse(newEndDate)}
+                    endDate : {between : [Date.parse(tempDate), Date.parse(prevEndDate)]}
                 }
+            }).then(()=> {
+                await Schedule.update({ endDate: Date.parse(newEndDate)},{
+                    where: {
+                        scheName: req.body.action.parameters.AlarmName.value,
+                        userID: parseInt(req.body.action.parameters.userID_3.value)
+                    }
+                }).catch(serr => {
+                    console.error(serr);
+                    next(serr);
+                });
             }).catch(error => {
                 console.error(error);
                 next(error);
@@ -60,7 +72,7 @@ const updateEndDate = async(req, res, next) => {
         else if(prevEndDate < newEndDate){
             let num = parseInt(moment.duration(moment(newEndDate).diff(moment(prevEndDate), 'days')));
             console.log("num: ", num);
-
+            //기존 알람의 종료일자 업데이트
             await Schedule.update({ endDate: Date.parse(newEndDate)},{
                 where: {
                     scheName: req.body.action.parameters.AlarmName.value,
@@ -69,8 +81,8 @@ const updateEndDate = async(req, res, next) => {
             }).catch(error => {
                 console.error(error);
                 next(error);
-            })
-
+            });
+            //알람 추가
             for(i = 0; i <= num ; i++){
                 //변경할 종료날짜
                 let tempDate = moment(prevEndDate).add(i, 'd');
