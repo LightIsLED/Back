@@ -15,7 +15,7 @@ const whatToTake = async(req, res, next) => {
     console.log(req.body.action.parameters);
 
     //현재 시간으로부터 전후 1시간에 울릴 알람 리스트
-    let hour = moment().tz('Asia/Seoul').format('HH');
+    let hour = parseInt(moment().tz('Asia/Seoul').format('HH'));
     let prevHour = hour-1;
     let nextHour = hour+1;
     if(hour === 00 || hour === '00'){
