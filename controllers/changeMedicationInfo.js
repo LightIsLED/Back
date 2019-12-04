@@ -56,10 +56,11 @@ const updateEndDate = async(req, res, next) => {
                 replacements: {
                     userID: parseInt(req.body.action.parameters.userID_3.value), 
                     scheName: req.body.action.parameters.AlarmName.value,
-                    endDate : Date.parse(newEndDate)
+                    endDate : newEndDate
                 }, 
                 type: Sequelize.QueryTypes.SELECT
-            }).then(async()=> {
+            }).then(async(result)=> {
+                console.log(result);
                 await Schedule.update({ endDate: Date.parse(newEndDate)},{
                     where: {
                         scheName: req.body.action.parameters.AlarmName.value,
