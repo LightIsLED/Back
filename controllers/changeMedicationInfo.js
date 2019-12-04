@@ -61,6 +61,16 @@ const updateEndDate = async(req, res, next) => {
             let num = parseInt(moment.duration(moment(newEndDate).diff(moment(prevEndDate), 'days')));
             console.log("num: ", num);
 
+            await Schedule.update({ endDate: Date.parse(newEndDate)},{
+                where: {
+                    scheName: req.body.action.parameters.AlarmName.value,
+                    userID: parseInt(req.body.action.parameters.userID_3.value)
+                }
+            }).catch(error => {
+                console.error(error);
+                next(error);
+            })
+
             for(i = 0; i <= num ; i++){
                 //변경할 종료날짜
                 let tempDate = moment(prevEndDate).add(i, 'd');
