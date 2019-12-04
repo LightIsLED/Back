@@ -40,7 +40,7 @@ const insertAlarm = async(req, res, next) => {
     let num = moment.duration(moment(endDate).diff(moment(startDate), 'days'));
     console.log("num: ", num);
 
-    for(i = 1; i <= num ; i++){
+    for(i = 0; i <= num ; i++){
         let tempDate = moment(startDate).add(i, 'd');
         tempDate = moment(tempDate).format('YYYY-MM-DD');
 
