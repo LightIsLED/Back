@@ -52,7 +52,7 @@ const updateEndDate = async(req, res, next) => {
 
             var secondQuery = "" + 
             "DELETE FROM `SCHEDULES` " +
-            "WHERE `userID` =: userID, `scheName` = :scheName, `scheDate` > :endDate";
+            "WHERE `userID` =: userID AND `scheName` = :scheName AND `scheDate` > :endDate";
 
             await sequelize.query(secondQuery, {
                 replacements: {
@@ -71,10 +71,12 @@ const updateEndDate = async(req, res, next) => {
                 }).catch(serr => {
                     console.error(serr);
                     next(serr);
+                    return;
                 });
             }).catch(error => {
                 console.error(error);
                 next(error);
+                return;
             });
         }
         
