@@ -214,6 +214,7 @@ const updateMedicineName = async(req, res, next) => {
             console.error(error);
             next(error);
         });
+        console.log(medicine["dataValues"]);
 
         for(i=0; i<schedule.length; i++){
             await MediSchedule.update({
