@@ -209,8 +209,9 @@ const updateMedicineName = async(req, res, next) => {
         await Medicine.findOrCreate({
             where: {
                 medicineName : req.body.action.parameters.newMedicineName.value
-            }
-        }).then(async (medicine) => {
+            },
+            attributes: ["medicineID", "medicineName"]
+        }).spread(async (medicine) => {
             for(i=0; i<schedule.length; i++){
                 await MediSchedule.update({
                     medicineID : medicine.dataValues.medicineID,
