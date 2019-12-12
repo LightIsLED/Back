@@ -210,7 +210,7 @@ const updateMedicineName = async(req, res, next) => {
             where: {
                 medicineName : req.body.action.parameters.newMedicineName.value
             }
-        }).then((medicine) => {
+        }).then(async (medicine) => {
             for(i=0; i<schedule.length; i++){
                 await MediSchedule.update({
                     medicineID : medicine.dataValues.medicineID,
