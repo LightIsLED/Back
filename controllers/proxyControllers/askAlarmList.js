@@ -13,7 +13,7 @@ const alarmList = async(req, res, next) => {
     console.log(req.body.action.parameters);
 
     //오늘 알람 리스트를 물었을 경우
-    ///Answer-alarmListToday
+    ///Answer-alarmListToday 또는 Answer-alarmListOverall
     var scheDate = moment().tz('Asia/Seoul').format('YYYY-MM-DD');
 
     //특정일의 알람 리스트를 물었을 경우
@@ -43,18 +43,8 @@ const alarmList = async(req, res, next) => {
             //RESPONSE SAMPLE 형식에 맞춤
             let resObj = json.resObj();
             resObj.version = req.body.version;
-
-            //오늘 알람을 물었을 경우
-            if((req.body.action.parameters).hasOwnProperty('u_today') === true){
-                resObj.output.medicineList_today = resultList;
-            }
-            //특정일 알람을 물었을 경우
-            else{
-                resObj.output.medicineList_theDay = resultList;
-            }
-
+            resObj.output.medicineList = resultList;
             console.log(resObj);
-            
             //NUGU에 전달
             res.json(resObj);
             res.end();

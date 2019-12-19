@@ -28,8 +28,7 @@ router.use("/medicines", medicineRouter);
 //---start---
 
 //Answer-alarmList
-router.post('/Answer-alarmListToday', alarmList);
-router.post('/Answer-alarmListTheDay', alarmList);
+router.post('/Answer-alarmList', alarmList);
 
 //Ask-whatToTake
 router.post('/Answer-whatToTake', whatToTake);
