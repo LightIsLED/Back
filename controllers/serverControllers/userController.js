@@ -31,7 +31,7 @@ const userEdit = async (req,res) => {
             attributes: ["userName","birth","sex","accompanierName","accompanierPhone"]
         }).then((user)=>{
             user.dataValues.birth = moment(user.dataValues.birth).format('YYYY-MM-DD');
-            console.log(user)
+            console.log(user);
             res.render("editProfile",{
                 user: user
             });
