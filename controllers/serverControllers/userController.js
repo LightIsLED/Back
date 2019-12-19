@@ -1,13 +1,17 @@
 const {User} = require("../../models");
+
+const moment = require('moment');
 const userDetail = async (req, res) => {
     try{
         await User.findOne({
             where:{
                 //test를 위해 임시로 1로 둠
-                userID: req.session.user.userID
+                userID: 1//req.session.user.userID
             },
             attributes: ["userName","birth","sex","accompanierName","accompanierPhone"]
         }).then((user)=>{
+            user.dataValues.birth = moment(user.dataValues.birth).format('YYYY-MM-DD');
+            console.log(user);
             res.render("profile",{
                 user: user
             });

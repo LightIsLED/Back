@@ -12,7 +12,9 @@ const momenttz = require('moment-timezone');
 
 const calendar = (req, res) => {
     res.render("calendar",{
+    monthToday: moment().format('YYYY년 MM월'),
     userDate: null,
+    speciDate: moment().format('MM월 DD일'),
     schedules: null
     });
 }
@@ -32,14 +34,16 @@ const calendarDetail =  async (req, res) => {
     await Schedule.findAll({
         where: {
             //test를 위해 임시로 1로 둠
-            userID: req.session.user.userID,
+            userID: 1,//req.session.user.userID,
             scheDate: Date.parse(dateString),
         },
         attributes: ["scheID","scheName","scheHour","scheMin", "scheDate", "intake"]
     }).then((schedule) => {
         console.log(schedule);
         res.render("calendar",{
+            monthToday: moment().format('YYYY년 MM월'),
             userDate: req.params.date,
+            speciDate: moment(dateString).format('MM월 DD일'),
             schedules: schedule
             });
     }).catch((error) => {

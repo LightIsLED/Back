@@ -3,13 +3,14 @@ const { User } = require("../../models");
 
 const home = (req, res) => {// Mediger 띄워지는 가장 첫 페이지 join 되어 있는지 확인한다.
     //test를 위해 임시로 함
-    //res.redirect("/calendar");
-    
+    res.redirect("/calendar");
+    /*
     if (req.session.user) {
         res.redirect("/calendar");
     } else {
         res.redirect("/join");
     }
+    */
     
 };
 
