@@ -44,18 +44,34 @@ const addForm = (req, res, next) => {
 };
 
 const medicineDetail = async (req, res) => {
+    console.log(req.params.scheID);
     var query="" + 
-    "SELECT SCHEDULES.scheID, SCHEDULES.scheName, SCHEDULES.scheHour, SCHEDULES.scheMin, SCHEDULES.intake, SCHEDULES.scheDate, SCHEDULES.startDate, SCHEDULES.endDate, MEDISCHEDULES.medicineName, MEDISCHEDULES.dose " + 
-    "FROM SCHEDULES S JOIN MEDISCHEDULES ON SCHEDULES.scheID=MEDISCHEDULES.scheID " + 
+    "SELECT SCHEDULES.scheID, SCHEDULES.scheName, SCHEDULES.scheHour, SCHEDULES.scheMin, SCHEDULES.intake, SCHEDULES.startDate, MEDISCHEDULES.medicineName, MEDISCHEDULES.dose " + 
+    "FROM SCHEDULES JOIN MEDISCHEDULES ON SCHEDULES.scheID=MEDISCHEDULES.scheID " + 
     "WHERE SCHEDULES.scheID=:scheID";
 
     await sequelize.query(query, 
         {replacements: {scheID: parseInt(req.params.scheID)}, type: Sequelize.QueryTypes.SELECT}
-    ).then((alarms) => {
-        res.render("medicineDetail", {
-            alarms: alarms,
+    ).then(async(alarms) => {
+        alarms[0]["startDate"] = moment(alarms[0]["startDate"]).format('YYYY-MM-DD');
+        console.log(alarms);
+        var secondQuery = "" + 
+        "SELECT COUNT(*) as cnt "+
+        "FROM SCHEDULES "+
+        "WHERE intake=true AND schename=:scheName AND startDate = :startDate AND userID = :userID";
+        await sequelize.query(secondQuery, 
+            {replacements: {scheName: alarms[0]["scheName"], startDate: alarms[0]["startDate"], userID: 1}, type: Sequelize.QueryTypes.SELECT}
+        ).then(count => {
+            console.log(count);
+            res.render("medicineDetail", {
+                alarms: alarms,
+                count: count
+            });
         });
-
+        
+    }).catch(err => {
+        console.error(err);
+        next(err);
     })
 };
 
