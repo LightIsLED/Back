@@ -1,21 +1,60 @@
 doctype html
 head
     title Mediger
-body
+    style(type="text/css").
+        li{
+            background-color: lightgray;
+            background-position: center;
+            text-align: center;
+            color: rgb(0,157,254);
+            border-radius: 15px;
+            height: 30px;
+            width: 80%;
+            margin: auto;
+            margin-top: 30px;
+        }
+        .add{
+            margin: auto;
+            width: 80%; 
+        }
+        .add input{
+            background-color: rgb(0,157,254);
+            color: white;
+            text-align: center;
+            border-radius: 15px;
+            background-position: center;
+            height: 30px;
+            width: 95%;
+            margin-left: 8%;
+            margin-top: 30px;
+            border:none;
+        }
+        ul{
+            list-style:none;
+        }
+        hr{
+            background-color: lightgray;
+            width: 100%;
+            height: 2px;
+        }
+body(onload="window.resizeTo(642,341)")
+    .header
+        h1(style="color: rgb(0,157,254); text-align: center") Mediger
+    hr
     .userInfo
         ul
-            li="Name: "+user.userName
-            li="Birthday: "+user.birth
+            li="이름        "+user.userName
+            li="생년월일        "+user.birth
             if(user.sex === 0)
-                li="Sex: male"
+                li="성별        남자"
             else
-                li="Sex: female"
+                li="성별        여자"
             if(user.accompanierName === null)
-                li="AccompanierInfo: Nothing"
+                li="보호자      Nothing"
             else
-                li="Accompanier: "+user.accompanierName+","+user.accompanierPhone
+                li="보호자      "+user.accompanierName+","+user.accompanierPhone
     .add
         form(action="/user/edit", method="get")
-            input(type="submit", value="edit")
+            input(type="submit", value="수정하기")
     .footer
         include footer.pug

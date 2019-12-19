@@ -206,27 +206,29 @@ const updateMedicineName = async(req, res, next) => {
             scheName: req.body.action.parameters.AlarmName.value
         }
     }).then(async (schedule) => {
-        const medicine = await Medicine.findOrCreate({
+        await Medicine.findOrCreate({
             where: {
                 medicineName : req.body.action.parameters.newMedicineName.value
-            }
+            },
+            attributes: ["medicineID", "medicineName"]
+        }).spread(async (medicine) => {
+            for(i=0; i<schedule.length; i++){
+                await MediSchedule.update({
+                    medicineID : medicine.dataValues.medicineID,
+                    medicineName: medicine.dataValues.medicineName,
+                    dose : req.body.action.parameters.newDosage.values
+                }, {
+                    where: {scheID : schedule[i].dataValues.scheID}
+                }).catch(error => {
+                    console.error(error);
+                    next(error);
+                });
+            }//for문 종료
         }).catch(error => {
             console.error(error);
             next(error);
         });
-
-        for(i=0; i<schedule.length; i++){
-            await MediSchedule.update({
-                medicineID : medicine["dataValues"]["medicineID"],
-                medicineName: medicine["dataValues"]["medicineName"],
-                dose : req.body.action.parameters.newDosage.values
-            }, {
-                where: {scheID : schedule[i].dataValues.scheID}
-            }).catch(error => {
-                console.error(error);
-                next(error);
-            });
-        }
+    
     }).catch(e => {
         console.error(e);
         next(e);
