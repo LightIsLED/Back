@@ -11,7 +11,7 @@ const userDetail = async (req, res) => {
             attributes: ["userName","birth","sex","accompanierName","accompanierPhone"]
         }).then((user)=>{
             user.dataValues.birth = moment(user.dataValues.birth).format('YYYY-MM-DD');
-            console.log(user);
+            console.log(user)
             res.render("profile",{
                 user: user
             });
@@ -26,11 +26,12 @@ const userEdit = async (req,res) => {
     try{
         await User.findOne({
             where:{
-                //테스트를 위해 임시로 1로 둠
-                userID: req.session.user.userID
+                userID: 1//req.session.user.userID
             },
             attributes: ["userName","birth","sex","accompanierName","accompanierPhone"]
         }).then((user)=>{
+            user.dataValues.birth = moment(user.dataValues.birth).format('YYYY-MM-DD');
+            console.log(user);
             res.render("editProfile",{
                 user: user
             });
@@ -49,8 +50,7 @@ const userUpdate = async (req, res) => {
             accompanierPhone: accompanierPhone
         },{
             where: {
-                //test를 위해 임시로 1로 둠
-                userID: req.session.user.userID
+                userID: 1//req.session.user.userID
             }
         }).then((user)=>{
             res.redirect("/user");
