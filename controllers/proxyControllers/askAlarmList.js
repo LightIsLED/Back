@@ -18,7 +18,7 @@ const alarmList = async(req, res, next) => {
 
     //특정일의 알람 리스트를 물었을 경우
     ///Answer-alarmListTheDay
-    if((req.body.action.parameters).hasOwnProperty('u_today') === false){
+    if((req.body.action.parameters).hasOwnProperty('u_theDay') === true){
         const month = parseInt(req.body.action.parameters.u_themonth.value) >= 10 ? req.body.action.parameters.u_themonth.value : '0'+req.body.action.parameters.u_themonth.value;
         const day = parseInt(req.body.action.parameters.u_theDay.value) >= 10 ? req.body.action.parameters.u_theDay.value : '0'+req.body.action.parameters.u_theDay.value;
         var dateFormat = (moment().tz('Asia/Seoul').format('YYYY')).toString() + month + day;
