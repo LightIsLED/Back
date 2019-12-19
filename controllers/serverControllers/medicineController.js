@@ -44,9 +44,10 @@ const addForm = (req, res, next) => {
 };
 
 const medicineDetail = async (req, res) => {
+    console.log(req.params.scheID);
     var query="" + 
-    "SELECT SCHEDULES.scheID, SCHEDULES.scheName, SCHEDULES.scheHour, SCHEDULES.scheMin, SCHEDULES.intake, SCHEDULES.scheDate, SCHEDULES.startDate, SCHEDULES.endDate, MEDISCHEDULES.medicineName, MEDISCHEDULES.dose " + 
-    "FROM SCHEDULES S JOIN MEDISCHEDULES ON SCHEDULES.scheID=MEDISCHEDULES.scheID " + 
+    "SELECT SCHEDULES.scheID, SCHEDULES.scheName, SCHEDULES.scheHour, SCHEDULES.scheMin, SCHEDULES.intake, SCHEDULES.scheDate, MEDISCHEDULES.medicineName, MEDISCHEDULES.dose " + 
+    "FROM SCHEDULES JOIN MEDISCHEDULES ON SCHEDULES.scheID=MEDISCHEDULES.scheID " + 
     "WHERE SCHEDULES.scheID=:scheID";
 
     await sequelize.query(query, 
@@ -55,7 +56,9 @@ const medicineDetail = async (req, res) => {
         res.render("medicineDetail", {
             alarms: alarms,
         });
-
+    }).catch(err => {
+        console.error(err);
+        next(err);
     })
 };
 
