@@ -1,3 +1,47 @@
+/*calendar specification specification*/
+.calendarspace{
+    width:375px;
+    height:311.5px;
+    display:inline-block;
+
+}
+.calendarbox{
+    width:375px;
+    height:45px;
+    padding-top:24.5px;
+    padding-left:40px;
+
+}
+.calendarNotTaken{
+    height: 17px;
+    width: 17px;
+    background-color: #afafaf;
+    border-radius: 50%;
+    display:inline-block;
+}
+.calendarTaken{
+    width: 17px;
+    height: 17px;
+    background-color: #25ae88;
+    border-radius: 50%;
+    display:inline-block;
+}
+.calendarTime{
+    height: 17px;
+    font-family: KoPubWorldDotum;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: left;
+    color: #707070;
+    display:inline;
+    margin-left:23px;
+}
+
+
 /*medicine specification*/
 .medicineName {
     width: 375px;
@@ -152,7 +196,6 @@
     padding-left:20px;
 }
 .scheduleName{
-    width: 62px;
     height: 21px;
     font-family: KoPubWorldDotum;
     font-size: 18px;
@@ -338,6 +381,7 @@
     color: #707070;
     display:table-cell;
     vertical-align:middle;
+
 }
 
 .a{

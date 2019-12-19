@@ -11,17 +11,16 @@ const moment = require('moment');
 const { Schedule, Medicine, MediSchedule } = require("../../models");
 
 const medicineList = async (req, res, next) => {
-    var query = "" +
-    "SELECT MEDISCHEDULES.scheID, SCHEDULES.scheName, SCHEDULES.scheHour, SCHEDULES.scheMin, SCHEDULES.scheDate, MEDISCHEDULES.medicineName, MEDISCHEDULES.dose " +
-    "FROM MEDISCHEDULES INNER JOIN SCHEDULES ON MEDISCHEDULES.scheID=SCHEDULES.scheID " + 
-    "WHERE date(SCHEDULES.scheDate) = date(now()) AND MEDISCHEDULES.scheID IN (SELECT scheID FROM SCHEDULES WHERE userID=:userID) " +
-    "ORDER BY MEDISCHEDULES.scheID DESC";
-
-    await sequelize.query(query, 
-        //test를 위해 임시로 1로 둠
-        {replacements: {userID: 1}, type: Sequelize.QueryTypes.SELECT}
-    )
+    await Schedule.findAll({
+        where: {
+            //test를 위해 임시로 1로 둠
+            userID: 1,//req.session.user.userID,
+            scheDate: Date.parse(moment().format('YYYY-MM-DD')),
+        },
+        attributes: ["scheID","scheName","scheHour","scheMin", "scheDate", "intake"]
+    })
     .then((schedules) => {
+        console.log(schedules);
         res.render("medicineList", {
             title: "Mediger-Main",
             //test를 위해 임시로 1로 둠
