@@ -1,21 +1,39 @@
 doctype html
-head
-    title #{title}
-body
-    form(action="/join", method="post")
-        div
-            label Name
-            input(type="text", name="name")
+html
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        link(rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.2/css/all.css' integrity='sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr' crossorigin='anonymous')
+        link(rel='stylesheet' href='css/styles.css')
 
-        div
-            label Birthday
-            input(type="date", name="birthDay")
+        title join | Mediger
 
-        div
-            label Sex
-            input(type="radio", name="sex", id="Male", value=0)
-            input(type="radio", name="sex", id="Female", value=1)
-        div 
-            label Submit
-            input(type="submit" value="Sign In")
+    body
+        include status-bar
+        .join__BlueBox
+            .join__BlueBox__title Mediger
+        
+        main.join
+            form(action="/join", method="post")
+                .join__box
+                    .field__name 이름
+                    input.join__input__box(type="text", name="name", placeholder="홍길동")
+
+                .join__box
+                    .field__birth 생년월일
+                    input.join__input__box(type="date", name="birthDay", placeholder="2000-01-01")
+
+                .join__box
+                    .field__sex 성별
+                    input(type='radio', name='sex', id="Male", value=0)
+                    label 남자
+                    input(type="radio", name="sex", id="Female" , value=1)
+                    label 여자
+                div 
+                    input.register-btn(type="submit" value="가입하기")
+
+    
+    .bigScreen
+        span.bigScreen__text 화면을 줄여주세요! 😱
 

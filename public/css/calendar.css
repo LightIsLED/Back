@@ -1,0 +1,159 @@
+.calendarBig {
+    width: 100%;
+    height: 165px;
+    background-color: #009dfe;
+}
+.calendarTop {
+    width: 100%;
+    height: 58px;
+    background-color: #0497f2;
+    color: #ffffff;
+}
+.calendarBottom {
+    width: 100%;
+    height: 58px;
+    padding-top: 28px;
+    color: #ffffff;
+}
+.calendarYearMonth {
+    width: 200px;
+    height: 21px;
+    font-family: KoPubWorldDotum;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 19px;
+}
+
+.day {
+    width: 15px;
+    height: 20px;
+    font-family: KoPubWorldDotum;
+    font-size: 17px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.18;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+}
+.dateCircleFirst {
+    width: 36px;
+    height: 36px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: inline-block;
+    font-family: KoPubWorldDotum;
+    font-size: 17px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.18;
+    letter-spacing: normal;
+    text-align: center;
+    color: #707070;
+    padding: 9px;
+    margin-left: 19px;
+    margin-right: 7.5px;
+    margin-bottom: 18px;
+}
+.dateCircle {
+    width: 36px;
+    height: 36px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: inline-block;
+    font-family: KoPubWorldDotum;
+    font-size: 17px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.18;
+    letter-spacing: normal;
+    text-align: center;
+    color: #707070;
+    padding: 9px;
+    margin-left: 7.5px;
+    margin-right: 7.5px;
+    margin-bottom: 18px;
+}
+.dateCircleLast {
+    width: 36px;
+    height: 36px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: inline-block;
+    font-family: KoPubWorldDotum;
+    font-size: 17px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.18;
+    letter-spacing: normal;
+    text-align: center;
+    color: #a45050;
+    padding: 9px;
+    margin-left: 7.5px;
+    margin-right: 17px;
+    margin-bottom: 18px;
+}
+.date {
+    width: 19px;
+    height: 17px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: auto;
+}
+.dateBox {
+    width: 100%;
+    padding-top: 50px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #707070;
+    background-color: #ffffff;
+    font-family: KoPubWorldDotum;
+    font-size: 17px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.18;
+    letter-spacing: normal;
+    text-align: left;
+    color: #707070;
+    display: block;
+}
+
+.specification {
+    height: 311.5px;
+    width: 375px;
+    background-color: #ffffff;
+    font-family: KoPubWorldDotum;
+    font-size: 17px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.18;
+    letter-spacing: normal;
+    text-align: center;
+    color: #707070;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.a {
+    text-decoration: none;
+    color: #707070;
+}
+.a2 {
+    text-decoration: none;
+    color: #ffffff;
+}

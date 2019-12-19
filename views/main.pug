@@ -1,0 +1,25 @@
+doctype html
+html
+- var date = new Date().getDate();
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+        link(rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.2/css/all.css' integrity='sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr' crossorigin='anonymous')
+        link(rel='stylesheet' href='css/styles.css')
+        title #{title} | Mediger
+        script(src="/socket.io/socket.io.js")
+        script.
+            var socket = io.connect('http://localhost:2000/alarm',{
+                path: '/socket.io'
+            });
+            socket.emit("ready", {});
+            socket.on('alarm', (data)=>{
+                alert(data.scheName+" "+data.scheHour+":"+data.scheMin);
+            });
+
+    body
+        include status-bar
+        include header
+        block content
+        include nav
