@@ -1,8 +1,9 @@
 doctype html
 html
     head
-        meta(charset='utf-8')
-         //- socket 때문에 내가 추가한 부분
+        meta(name="viewpoint" content="width=device-width, initial-scale=1.0")
+        link(rel='stylesheet' href='/main.css')         
+        //- socket 때문에 내가 추가한 부분
         script(src="/socket.io/socket.io.js")
         script.
             var socket = io.connect('http://localhost:2000/add',{
@@ -14,23 +15,17 @@ html
                 list-style:none;
             }
     body
-        .schedules
+        include header.pug
+        .medicineTake 복용 중인 약
+        .listOut
+
             for schedule in schedules
-                - count = 0;
-                .schedule
-                for time in schedule
-                    .time
-                    ul
-                    if(count==0)
-                        li= '알람이름: ' + time.scheName
-                        li= '알람시간: ' +time.scheHour + " : " + time.scheMin
-                    - count = count+1
-                        ul
-                            li= '약이름: ' + time.medicineName
-                            li= '복용량: ' + time.dose
-        .add
-            form(action='/medicines/addForm' method='GET')
-                input.user(type='hidden', value=user)
-                input(type="submit", value="추가")
+                .block
+                    .schedule
+                        .scheduleName
+                            a(href="/medicines/"+`${schedule.scheID}`).a=schedule.scheName
+        
+        form(action='/medicines/addForm' method='GET')
+            input.Rectangle-add(type="submit", value="추가")
         .footer
             include footer.pug

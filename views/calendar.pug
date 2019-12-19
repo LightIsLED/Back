@@ -3,6 +3,9 @@ html
 - var date = new Date().getDate();
     head
         title #{title}
+        title Mediger
+        meta(name="viewpoint" content="width=device-width, initial-scale=1.0")
+        link(rel='stylesheet' href='/main.css')
         script(src="/socket.io/socket.io.js")
         script.
             var socket = io.connect('http://localhost:2000/alarm',{
@@ -13,13 +16,31 @@ html
                 alert(data.scheName+" "+data.scheHour+":"+data.scheMin);
             });
     body
-        .calendar
-            a(href="/calendar/"+`${-2}`) #{date-2}
-            a(href="/calendar/"+`${-1}`) #{date-1}
-            a(href="/calendar/"+`${0}`) #{date}
-            a(href="/calendar/"+`${1}`) #{date+1}
-            a(href="/calendar/"+`${2}`) #{date+2}
-        
+        include header.pug
+        .calendarBig
+            .calendarTop
+                .calendarYearMonth=monthToday
+            .calendarBottom
+                .dateCircleFirst
+                    .date
+                        a(href="/calendar/"+`${-2}`).a #{date-2}
+                .dateCircle
+                    .date
+                        a(href="/calendar/"+`${-1}`).a #{date-1}
+                .dateCircle
+                    .date
+                        a(href="/calendar/"+`${0}`).a #{date}
+                .dateCircle
+                    .date
+                        a(href="/calendar/"+`${1}`).a #{date+1}
+                .dateCircleLast
+                    .date
+                        a(href="/calendar/"+`${2}`).a #{date+2}
+        .dateBox=speciDate
+        .hr
+        .specification
+            if !schedules
+                p 일정없음
         .alarmList
             if (schedules!=null)
                 for schedule in schedules

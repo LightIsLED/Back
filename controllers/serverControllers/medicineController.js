@@ -19,16 +19,14 @@ const medicineList = async (req, res, next) => {
 
     await sequelize.query(query, 
         //test를 위해 임시로 1로 둠
-        {replacements: {userID: req.session.user.userID}, type: Sequelize.QueryTypes.SELECT}
+        {replacements: {userID: 1}, type: Sequelize.QueryTypes.SELECT}
     )
     .then((schedules) => {
-        var grouped = groupBy(schedules, 'scheID');
-        console.log(grouped);
         res.render("medicineList", {
             title: "Mediger-Main",
             //test를 위해 임시로 1로 둠
-            user: req.session.user.userID,
-            schedules: grouped,
+            user: 1,// req.session.user.userID,
+            schedules: schedules,
         });
     })
     .catch((error) => {
@@ -41,18 +39,18 @@ const addForm = (req, res, next) => {
     res.render("addForm", {
         title: "Mediger-AddAlarm",
         user: null,
-        userID: req.session.user.userID
+        userID: 1// req.session.user.userID
     });
 };
 
 const medicineDetail = async (req, res) => {
     var query="" + 
-    "SELECT S.scheID, S.scheName, S.scheHour, S.scheMin, S.intake, S.scheDate, S.startDate, S.endDate, MEDISCHEDULES.medicineName, MEDISCHEDULES.dose " + 
+    "SELECT SCHEDULES.scheID, SCHEDULES.scheName, SCHEDULES.scheHour, SCHEDULES.scheMin, SCHEDULES.intake, SCHEDULES.scheDate, SCHEDULES.startDate, SCHEDULES.endDate, MEDISCHEDULES.medicineName, MEDISCHEDULES.dose " + 
     "FROM SCHEDULES S JOIN MEDISCHEDULES ON SCHEDULES.scheID=MEDISCHEDULES.scheID " + 
     "WHERE SCHEDULES.scheID=:scheID";
 
     await sequelize.query(query, 
-        {replacements: {scheID: req.params.scheID}, type: Sequelize.QueryTypes.SELECT}
+        {replacements: {scheID: parseInt(req.params.scheID)}, type: Sequelize.QueryTypes.SELECT}
     ).then((alarms) => {
         res.render("medicineDetail", {
             alarms: alarms,
@@ -81,7 +79,7 @@ const insertSchedule = async (req, res, next) => {
             while(tempDate <= endDate){
                 let schedule = await Schedule.create({
                     //테스트를 위해 임시로 1로 둠
-                    userID: req.session.user.userID,
+                    userID: 1, // req.session.user.userID,
                     scheName: req.body.scheName,
                     scheDate: tempDate,
                     scheHour: time[0],
