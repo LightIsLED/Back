@@ -38,20 +38,19 @@ html
                         a(href="/calendar/"+`${2}`).a #{date+2}
         .dateBox=speciDate
         .hr
-        .specification
-            if !schedules
-                p 일정없음
-        .alarmList
-            if (schedules!=null)
+        
+        if !schedules
+            .specification 일정없음    
+        if (schedules!=null)
+            .calendarspace
                 for schedule in schedules
-                    li="알람 이름: " + schedule.scheName
-                    - time = schedule.scheHour + " : " + schedule.scheMin
-                    li="알람 시간: " + time
-                    li="알람 일자: " + schedule.scheDate
-                    if(schedule.intake===true)
-                        li="복용: " + "green"
-                    else
-                        li="미복용: " + "grey"
-                    a(href="/calendar/"+`${userDate}`+"/"+`${schedule.scheID}`+"") 상세 정보
+                    .calendarbox
+                        if(schedule.intake===true)
+                            .calendarTaken
+                        else
+                            .calendarNotTaken
+                        - time = schedule.scheHour + "시 " + schedule.scheMin + "분 " + schedule.scheName
+                        .calendarTime
+                            a(href="/calendar/"+`${userDate}`+"/"+`${schedule.scheID}`+"").a=time
         .footer
             include footer.pug
