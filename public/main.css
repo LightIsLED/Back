@@ -360,10 +360,12 @@ input.imageButton3{
     letter-spacing: normal;
     text-align: center;
     color: #ffffff;
-    margin-bottom:52px;
     margin-left:40px;
     margin-right:40px;
     border:none;
+    top: 514px;
+    border:none;
+    position:absolute;
 }
 /*캘린더*/
 .calendarBig{
@@ -685,6 +687,7 @@ input.imageButton3{
     text-align: left;
     color: #009dfe;
     border:none;
+    background-color:#f5f5f5;
 }
 .blueBox{
     width: 315px;
@@ -694,6 +697,11 @@ input.imageButton3{
     background-color: #ffffff;
     margin-right:29px;
     margin-left:31px;
+}
+.biggestBox{
+    width: 446px;
+    height: 40px;
+    background-color: #ffffff;
 }
 .profileBlueIndex1 {
     height: 21px;
@@ -765,6 +773,26 @@ input.imageButton3{
     margin-right:40px;
     border:none;
 }
+.Rectangle-1321 {
+    width: 295px;
+    height: 48px;
+    border-radius: 24px;
+    background-color: #2699fb;
+    font-family: KoPubWorldDotum;
+    font-size: 17px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.71;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    top: 514px;
+    border:none;
+    position:absolute;
+    margin-left:40px;
+    margin-right:40px;
+}
 
 .Rectangle-132-Inner{
     width: 100%;
@@ -788,6 +816,8 @@ input.imageButton3{
     width: 375px;
     height: 56px;
     background-color: #ffffff;
+    position:absolute;
+    top:611px;
 }
 
 /*푸터*/
@@ -795,6 +825,7 @@ input.imageButton3{
     width: 125px;
     height: 56px;
     display:inline-block;
+    
 }
 .calendar {
     width: 26px;

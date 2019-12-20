@@ -25,7 +25,8 @@ html
                         .scheduleName
                             a(href="/medicines/"+`${schedule.scheID}`).a=schedule.scheName
         
-        form(action='/medicines/addForm' method='GET')
-            input.Rectangle-add(type="submit", value="추가")
+        .rectangle1
+            form(action='/medicines/addForm' method='GET')
+                input.Rectangle-add(type="submit", value="추가")
         .footer
             include footer.pug
