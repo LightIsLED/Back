@@ -5,30 +5,41 @@ block content
         .calendarTop
             .calendarYearMonth=monthToday
         .calendarBottom
-            .dateCircleFirst
-                .date
-                    a(href="/calendar/"+`${-2}`).a #{date-2}
-            .dateCircle
-                .date
-                    a(href="/calendar/"+`${-1}`).a #{date-1}
-            .dateCircle
-                .date
-                    a(href="/calendar/"+`${-1}`).a #{date-1}
-            .dateCircle
-                .date
-                    a(href="/calendar/"+`${0}`).a #{date}
-            .dateCircle
-                .date
-                    a(href="/calendar/"+`${1}`).a #{date+1}
-            .dateCircleLast
-                .date
-                    a(href="/calendar/"+`${2}`).a #{date+2}
+            ul.more__btn-list
+                li.more__btn
+                    span.more__btn-title 월
+                    .dateCircle
+                        a(href="/calendar/"+`${-4}`).a 16
+                li.more__btn
+                    span.more__btn-title 화
+                    .dateCircle
+                        a(href="/calendar/"+`${-3}`).a 17
+                li.more__btn
+                    span.more__btn-title 수
+                    .dateCircle
+                        a(href="/calendar/"+`${-2}`).a 18
+                li.more__btn
+                    span.more__btn-title 목
+                    .dateCircle
+                        a(href="/calendar/"+`${-1}`).a 19
+                li.more__btn
+                    span.more__btn-title 금
+                    .dateCircle
+                        a(href="/calendar/"+`${0}`).a 20
+                li.more__btn
+                    span.more__btn-title 토
+                    .dateCircle
+                        a(href="/calendar/"+`${1}`).a 21
+                li.more__btn
+                    span.more__btn-title 일
+                    .dateCircle
+                        a(href="/calendar/"+`${2}`).a 22
     
     .dateBox=speciDate
 
     .specification
         if !schedules
-            p 일정없음
+            p 일정 없음
     .alarmList
         if (schedules!=null)
             for schedule in schedules

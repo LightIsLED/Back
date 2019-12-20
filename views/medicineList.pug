@@ -1,21 +1,7 @@
-doctype html
-html
-    head
-        meta(name="viewpoint" content="width=device-width, initial-scale=1.0")
-        link(rel='stylesheet' href='/main.css')         
-        //- socket 때문에 내가 추가한 부분
-        script(src="/socket.io/socket.io.js")
-        script.
-            var socket = io.connect('http://localhost:2000/add',{
-                path: '/socket.io'
-            });
-            socket.emit("insert", {});
-        style.
-            ul{
-                list-style:none;
-            }
-    body
-        include header.pug
+extends main
+
+block content
+    .medicineList
         .medicineTake 복용 중인 약
         .listOut
 
@@ -27,5 +13,3 @@ html
         
         form(action='/medicines/addForm' method='GET')
             input.Rectangle-add(type="submit", value="추가")
-        .footer
-            include footer.pug

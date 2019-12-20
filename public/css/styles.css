@@ -9,6 +9,8 @@
 @import "edit-profile.css";
 @import "join.css";
 @import "calendar.css";
+@import "medicine-list.css";
+@import "medicine-detail.css";
 
 * {
     box-sizing: border-box;

@@ -1,0 +1,58 @@
+.medicineTake {
+    font-family: KoPubWorldDotum;
+    font-size: 19px;
+    font-weight: 100;
+    margin: 50px 20px;
+}
+.listOut {
+    height: 350px;
+    width: 100%;
+}
+.block {
+    display: block;
+    margin-top: 18px;
+    margin-bottom: 18px;
+    margin-left: 80px;
+}
+
+.schedule {
+    width: 329px;
+    height: 47px;
+    border-radius: 17px;
+    border: solid 0.5px #707070;
+    background-color: #ffffff;
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 20px;
+}
+.scheduleName {
+    height: 21px;
+    font-family: KoPubWorldDotum;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: left;
+    color: #707070;
+}
+.Rectangle-add {
+    width: 295px;
+    height: 48px;
+    border-radius: 24px;
+    background-color: #2699fb;
+    font-family: KoPubWorldDotum;
+    font-size: 17px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.71;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 52px;
+    margin-left: 100px;
+    margin-right: 40px;
+    border: none;
+}
