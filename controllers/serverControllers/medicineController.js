@@ -52,7 +52,10 @@ const medicineDetail = async (req, res) => {
     await sequelize.query(query, 
         {replacements: {scheID: parseInt(req.params.scheID)}, type: Sequelize.QueryTypes.SELECT}
     ).then(async(alarms) => {
-        alarms[0]["startDate"] = moment(alarms[0]["startDate"]).format('YYYY-MM-DD');
+        for(alarm of alarms)
+        {
+            alarm["startDate"] = moment(alarm["startDate"]).format('YYYY-MM-DD');
+        }
         console.log(alarms);
         var secondQuery = "" + 
         "SELECT COUNT(*) as cnt "+
