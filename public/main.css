@@ -360,9 +360,9 @@ input.imageButton3{
     letter-spacing: normal;
     text-align: center;
     color: #ffffff;
-    margin-bottom:52px;
     margin-left:40px;
     margin-right:40px;
+    border:none;
     border:none;
 }
 /*캘린더*/
@@ -685,7 +685,7 @@ input.imageButton3{
     text-align: left;
     color: #009dfe;
     border:none;
-    background-color:  #f5f5f5;
+    background-color:#f5f5f5;
 }
 .blueBox{
     width: 315px;
@@ -695,6 +695,11 @@ input.imageButton3{
     background-color: #ffffff;
     margin-right:29px;
     margin-left:31px;
+}
+.biggestBox{
+    width: 446px;
+    height: 40px;
+    background-color: #ffffff;
 }
 .profileBlueIndex1 {
     height: 21px;
@@ -796,6 +801,7 @@ input.imageButton3{
     width: 125px;
     height: 56px;
     display:inline-block;
+    
 }
 .calendar {
     width: 26px;
