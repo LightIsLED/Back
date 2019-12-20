@@ -1,27 +1,32 @@
 head
     meta(name="viewpoint" content="width=device-width, initial-scale=1.0")
     link(rel='stylesheet' href='/main.css')
-    - var date = new Date();
-    - var today = String(date.getMonth()+1)+"/"+String(date.getDate());
 body
+    .rectangle-68
+    .rectangle-69
+        -path = "/calendar/" + date
+        a(href=path).a3 < 
+        .inputIntake 복용 입력
+    .hr
 
     .alarms
         form(action="/calendar/alarmRecord", method="POST")
-            - var count = 0
             for alarm in alarms
-                if (count===0)
-                    - count = count + 1
-                    input#scheID(type='hidden' name='scheID' value=alarm.scheID)
-                    input#date(type='hidden' name='date' value=alarm.scheDate)
-                    - var time = alarm.scheHour + " : " + alarm.scheMin
-                    ul
-                        li= "알람 이름: " + alarm.scheName
-                        li= time
-                    if(alarm.intake===false)
-                        li= "복용 여부: grey"
-                    else
-                        li= "복용 여부: green"
-                ul
-                    li= "약 이름: " + alarm.medicineName
-                    li= "복용량: " + alarm.dose
-            input(type="submit" value="복용")
+                .mediNameSpace
+                .rectangle-69
+                    .mediName-inner=alarm.scheName
+                .rectangle-68
+                .rectangle-69
+                .center
+                    -var string=alarm.scheDate + " " + alarm.scheHour + "시 " + alarm.scheMin + "분";
+                    .nextToCalendarIcon=string
+                .bigSpace
+                .semiSpace
+                    input(type="button" class="imageButton1" value="")
+                    input(type="submit" class="imageButton3" value="")
+                    input#scheID(type="hidden" name="scheID" value=alarm.scheID)
+                    br
+                    .caption1 건너뜀
+                    .caption2 복용했음
+                .smallSpace
+        include footer.pug

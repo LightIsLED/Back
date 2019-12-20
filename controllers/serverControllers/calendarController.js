@@ -62,7 +62,10 @@ const alarmDetail = async (req, res) => {
         {replacements: {scheID: req.params.scheID}, type: Sequelize.QueryTypes.SELECT}
     ).then((alarm) => {
         console.log(alarm);
+        alarm[0]["scheDate"] = moment(alarm[0]["scheDate"]).format("MM월 DD일");
+        alarm[0]["scheHour"]
         res.render("alarmDetail", {
+            date: req.params.date,
             alarms: alarm
         });
     }).catch((error) => {
