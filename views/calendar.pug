@@ -1,6 +1,7 @@
 doctype HTML
 html
 - var date = new Date().getDate();
+- var week = ['일', '월', '화', '수', '목', '금', '토']
     head
         title #{title}
         title Mediger
@@ -20,22 +21,38 @@ html
         .calendarBig
             .calendarTop
                 .calendarYearMonth=monthToday
-            .calendarBottom
+            .calendarBottom1
+                .day1 화
+                .day 수
+                .day 목
+                .day 금
+                .day 토
+                .day 일
+                .day2 월
+
+
+            .calendarBottom2
                 .dateCircleFirst
+                    .date
+                        a(href="/calendar/"+`${-3}`).a #{date-3}
+                .dateCircle
                     .date
                         a(href="/calendar/"+`${-2}`).a #{date-2}
                 .dateCircle
                     .date
-                        a(href="/calendar/"+`${-1}`).a #{date-1}
+                        a(href="/calendar/"+`${1}`).a #{date-1}
                 .dateCircle
                     .date
                         a(href="/calendar/"+`${0}`).a #{date}
                 .dateCircle
                     .date
                         a(href="/calendar/"+`${1}`).a #{date+1}
-                .dateCircleLast
+                .dateCircle
                     .date
                         a(href="/calendar/"+`${2}`).a #{date+2}
+                .dateCircleLast
+                    .date
+                        a(href="/calendar/"+`${3}`).a #{date+3}
         .dateBox=speciDate
         .hr
         

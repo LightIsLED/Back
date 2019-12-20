@@ -63,7 +63,9 @@ const alarmDetail = async (req, res) => {
     ).then((alarm) => {
         console.log(alarm);
         alarm[0]["scheDate"] = moment(alarm[0]["scheDate"]).format("MM월 DD일");
-        alarm[0]["scheHour"]
+        if(parseInt(alarm[0]["scheMin"])<10){
+            alarm[0]["scheMin"]='0'+alarm[0]["scheMin"];
+        }
         res.render("alarmDetail", {
             date: req.params.date,
             alarms: alarm
