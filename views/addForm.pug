@@ -10,13 +10,13 @@ html
             function mediAppend(form){
                 mediCount = mediCount+1;
                 append = document.getElementById("appendmedi");
-                append.innerHTML += "<div class=medicineGreyBox> <div class=profileIndex> 약물"+ mediCount + " 이름: </div> <input class=addMedicineText type=text name=mediName></div><br>"
-                append.innerHTML += "<div class=medicineGreyBox> <div class=addMedicineIndex> 약물"+ mediCount + " 복용량 : </div><input class=addMedicineText type=text name=dose></div><br>"
+                append.innerHTML += "<div class=medicineGreyBox> <div class=profileIndex> 약 이름"+ mediCount + "</div> <input class=addMedicineText type=text name=mediName></div><br>"
+                append.innerHTML += "<div class=medicineGreyBox> <div class=addMedicineIndex> 약 복용량"+ mediCount + "</div><input class=addMedicineText type=text name=dose></div><br>"
             }
             function timeAppend(form){
                 timeCount = timeCount+1;
                 append = document.getElementById("appendtime");
-                append.innerHTML += "<div class=medicineGreyBox> <div class=profileIndex>"+timeCount + " : </div><input class=addMedicineText type=time name=time></div><br>"
+                append.innerHTML += "<div class=medicineGreyBox> <div class=profileIndex>시간"+timeCount + "</div><input class=addMedicineText type=time name=time></div><br>"
             }
     body(onload="window.resizeTo(642,341)")
         include header.pug
