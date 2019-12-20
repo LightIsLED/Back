@@ -316,7 +316,8 @@ input.imageButton3{
 .listOut{
     height:363px;
     width:375px;
-    background-color: #ffffff;    
+    background-color: #ffffff;
+    
 }
 .block{
     display:block;
@@ -361,8 +362,8 @@ input.imageButton3{
     text-align: center;
     color: #ffffff;
     margin-left:40px;
+    margin-bottom:40px;
     margin-right:40px;
-    border:none;
     border:none;
 }
 /*캘린더*/
@@ -580,14 +581,17 @@ input.imageButton3{
     font-size:20px;
 }
 /*헤더*/
-
+.Rectangle1 {
+    width: 375px;
+    height: 388;
+    margin:0;
+    background-color: #ffffff;
+}
 .Rectangle-68 {
     width: 375px;
     height: 20px;
     margin:0;
     background-color: #ffffff;
-
-
 }
 .Rectangle-69 {
     width: 375px;
